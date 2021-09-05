@@ -1,7 +1,67 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Register Page</title>
-    </head>
-    <body><h1>Register Page</h1></body>
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous"
+    />
+
+    <title>Register Page</title>
+    <link rel="stylesheet" type="text/css" href="registerStyles.css" />
+  </head>
+  <body>
+    <div class="container-md">
+      <div class="test row justify-content-center align-content-center">
+        <div class="col-5">
+          <h3>Sign up</h3>
+          <form class="w-100" action="auth/register" method="POST">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                placeholder="Enter your name"
+              />
+            </div>
+            <div class="form-group w-100">
+              <label for="emailaddress">Email address</label>
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                placeholder="Enter your email"
+              />
+            </div>
+            <div class="form-group">
+              <label for="Password">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                aria-describedby="emailHelp"
+                placeholder="Enter password"
+              />
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Confirm Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="password-repeat"
+                placeholder="Retype password"
+              />
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary" id="registerbtn">
+                Register
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>
