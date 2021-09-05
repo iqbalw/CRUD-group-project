@@ -11,9 +11,8 @@
  
  
 }
-.leftside{
- background-color: red;
-}
-.rightside{
- background-color: blue;
+.test{
+ height: 100vh;
+
+ /* background-color: aqua; */
 }
