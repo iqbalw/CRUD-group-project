@@ -1,7 +1,62 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Login Page</title>
-    </head>
-    <body><h1>Login Page</h1></body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    
+    <link rel="stylesheet" href="loginStyle.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container-md py-5">
+
+        <div class="row justify-content-center align-content-center">
+
+            <div class="col-5">
+
+                <h1>Sign in</h1>
+
+                <!-- Form starts here, will need to change the action -->
+                <form action="/auth/login" method="POST">
+                    <div class="form-group">
+                      <label for="loginEmail">Email address</label>
+                      <input type="email" class="form-control" id="loginEmail" name="email" aria-describedby="emailHelp" placeholder="Enter email">
+        
+                    </div>
+                    <div class="form-group">
+                      <label for="loginPassword">Password</label>
+                      <input type="password" class="form-control" id="loginPassword" name="password" placeholder="Password">
+                    </div>
+
+                    <div class="text-center">
+                        <!-- Sign in -->
+                        <div class="w-100 py-2">
+                          <button type="submit" class="btn btn-primary">Sign in</button>
+                        </div>
+                    </div>
+
+                </form>
+                <div class="text-center">
+
+                    <!-- Sign up with Google -->
+                    <div class="w-100 py-2">
+                        <button type="submit" class="btn btn-primary">Sign in with Google</button>
+                    </div>
+                  
+                    <!-- Register normally -->
+                    <div class="w-100 py-2">
+                        Or
+                    </div>
+                    <div class="w-100">
+                        <a class="text-muted" href="register.html">Create New Account</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
 </html>
