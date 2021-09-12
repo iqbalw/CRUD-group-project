@@ -7,6 +7,7 @@ require('./startup/configPassport')(passport); // Init Passport strategies
 const routes = require('./startup/initRoutes');
 const path = require('path');
 const mongoose = require('mongoose');
+const MongoStore = require('connect-mongo');
 
 const app = express();
 
@@ -22,7 +23,13 @@ app.use(session({
     secret: process.env.SESSION_SECRET, 
     resave: false,
     saveUninitialized: false,
-    unset: 'destroy'
+    unset: 'destroy',
+    store: MongoStore.create({
+        mongoUrl: process.env.DB_CONNECT,
+        ttl: 24 * 60 * 60,
+        autoRemove: 'native',
+        stringify: false
+    })
 }));
 
 // Init Passport
