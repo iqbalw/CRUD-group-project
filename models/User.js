@@ -21,9 +21,9 @@ const userSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    required: true,
-    max: 1024,
-    min: 4,
+    required: function () { return this.type === 'local' },
+    enum: ['local', 'google']
+
   },
   date: {
     type: Date,
