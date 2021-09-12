@@ -57,13 +57,4 @@ module.exports.register = async (req, res) => {
   }
 }
 
-/**
- * Checks if the credentials provided in the request Object
- * matches with a user's data currently saved in the database. 
- * @param {Object} req The Request Object 
- * @param {Object} res The Response Object
- */
-module.exports.login = (req, res) => {
-  res.send(req.body);
-}
 

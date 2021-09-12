@@ -1,7 +1,10 @@
 // Imports
 require('dotenv').config(); // Configure environment variables
 const express = require('express');
-const routes = require('./routes/startup/initRoutes');
+const session = require('express-session');
+const passport = require('passport');
+require('./startup/configPassport')(passport); // Init Passport strategies
+const routes = require('./startup/initRoutes');
 const path = require('path');
 const mongoose = require('mongoose');
 
@@ -14,7 +17,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
+// Init Session
+app.use(session({ 
+    secret: process.env.SESSION_SECRET, 
+    resave: false,
+    saveUninitialized: false,
+}));
 
+// Init Passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Init Routes
 routes(app);
