@@ -1,23 +1,21 @@
 const router = require("express").Router();
-const { registerCreation } = require("../controllers/authController");
-const { registerValidation } = require("../middleware/ValidationFunctions");
+const controller = require("../controllers/authController");
+const { registerValidation } = require("../controllers/middleware/dataValidation");
 
-router.get("/login", (req, res) => {
-  res.redirect("/login.html");
-});
+// @desc    Login Page
+// @route   GET /auth/login
+router.get("/login", controller.getLogin);
 
-router.post("/login", (req, res) => {
-  res.send(req.body);
-});
+// @desc    Authenticate User
+// @route   POST /auth/login
+router.post("/login", controller.login);
 
-router.get("/register", (req, res) => {
-  res.redirect("/register.html");
-});
+// @desc    Register Page
+// @route   GET /auth/register
+router.get("/register", controller.getRegister);
 
-//When a post request is made from the register page, this will be triggered,
-//to manually test use Postman, select Post with the following url: http://localhost:3000/auth/register
-//and provide a JSON with the fields apart from the date ofc!
-
-router.post("/register",  registerValidation, registerCreation)
+// @desc    Register a new user
+// @route   POST /auth/register
+router.post("/register",  registerValidation, controller.register);
 
 module.exports = router;

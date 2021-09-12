@@ -15,13 +15,13 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true,
+    required: function () { return this.type === 'local' },
     max: 1024,
     min: 6,
   },
   type: {
     type: String,
-    required: function () { return this.type === 'local' },
+    required: true,
     enum: ['local', 'google']
 
   },
