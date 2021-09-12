@@ -7,7 +7,7 @@ const bcrypt = require("bcryptjs");
  * @param {Object} res The Response Object
  */
  module.exports.getLogin = (req, res) => {
-  res.redirect("/login.html");
+  res.render("login", {inputError: null});
 }
 
 /**
@@ -16,9 +16,16 @@ const bcrypt = require("bcryptjs");
  * @param {Object} res The Response Object
  */
 module.exports.getRegister = (req, res) => {
-  res.redirect('/register.html');
+  res.render('register');
 }
 
+/**
+ * Logs out the user from the current session
+ * by clearing the cookie, session object and 
+ * finally redirecting back to the login page.
+ * @param {Object} req The Request Object 
+ * @param {Object} res The Response Object
+ */
 module.exports.logout = (req, res) => {
   req.logout();
   res.clearCookie('connect.sid');

@@ -2,6 +2,7 @@
 require('dotenv').config(); // Configure environment variables
 const express = require('express');
 const session = require('express-session');
+const flash = require('express-flash');
 const passport = require('passport');
 require('./startup/configPassport')(passport); // Init Passport strategies
 const routes = require('./startup/initRoutes');
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', 'views');
+app.use(flash());
 
 // Init Session
 app.use(session({ 
@@ -43,7 +45,7 @@ routes(app);
 mongoose.connect(process.env.DB_CONNECT, 
     {useNewURLParser: true},
    ()=> console.log("Database connection was successful")
-   );
+);
 
 // 404, If request not found
 app.use((req, res) => {

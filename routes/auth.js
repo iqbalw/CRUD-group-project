@@ -12,6 +12,8 @@ router.get("/login", isNotLoggedIn, controller.getLogin);
 // @route   POST /auth/login
 router.post('/login', isNotLoggedIn, loginValidation, passport.authenticate('local', {
     successRedirect: '/', // back to index page
+    failureRedirect: '/auth/login',
+    failureFlash: true
 }));
 
 // @desc    Register Page
