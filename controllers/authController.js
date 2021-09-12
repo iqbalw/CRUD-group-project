@@ -19,6 +19,13 @@ module.exports.getRegister = (req, res) => {
   res.redirect('/register.html');
 }
 
+module.exports.logout = (req, res) => {
+  req.logout();
+  res.clearCookie('connect.sid');
+  req.session = null;
+  res.redirect('./login');
+}
+
 /**
  * Registers a new user in the database. First will check 
  * if the specified email already exists, if not then will

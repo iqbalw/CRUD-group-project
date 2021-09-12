@@ -21,4 +21,9 @@ router.get("/register", controller.getRegister);
 // @route   POST /auth/register
 router.post("/register",  registerValidation, controller.register);
 
+// @desc    Log a user out
+// @route   GET /auth/logout
+// note:    should change this to a DELETE in the future
+router.get('/logout', controller.logout);
+
 module.exports = router;
