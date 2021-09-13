@@ -24,7 +24,7 @@ const loginValidation = (req, res, next) => {
 
   const { error } = schema.validate(req.body);
   if (error) {
-    return res.status(400).render('login', { inputError: error.details[0].message });
+    return res.status(400).render('login', { error: error.details[0].message });
   }
   next();
 };

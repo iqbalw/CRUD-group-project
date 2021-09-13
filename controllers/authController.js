@@ -7,7 +7,7 @@ const bcrypt = require("bcryptjs");
  * @param {Object} res The Response Object
  */
  module.exports.getLogin = (req, res) => {
-  res.render("login", {inputError: null});
+  res.render("login", {error: req.session.message});
 }
 
 /**

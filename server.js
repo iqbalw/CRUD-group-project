@@ -2,7 +2,6 @@
 require('dotenv').config(); // Configure environment variables
 const express = require('express');
 const session = require('express-session');
-const flash = require('express-flash');
 const passport = require('passport');
 require('./startup/configPassport')(passport); // Init Passport strategies
 const routes = require('./startup/initRoutes');
@@ -18,7 +17,6 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', 'views');
-app.use(flash());
 
 // Init Session
 app.use(session({ 
@@ -26,9 +24,13 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     unset: 'destroy',
+    cookie: {
+        maxAge: 24 * 60 * 60 * 1000, // one day
+        sameSite: true
+    },
     store: MongoStore.create({
         mongoUrl: process.env.DB_CONNECT,
-        ttl: 24 * 60 * 60,
+        ttl: 24 * 60 * 60, // one day
         autoRemove: 'native',
         stringify: false
     })

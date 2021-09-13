@@ -8,7 +8,7 @@
  * @param {Callback} next The next middleware function 
  */
 module.exports.isLoggedIn = (req, res, next) => {
-    req.isAuthenticated() ? next() : res.sendStatus(401);
+    req.isAuthenticated() ? next() : res.status(401).redirect('/auth/login');
 }
 
 /**

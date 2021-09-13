@@ -12,8 +12,7 @@ router.get("/login", isNotLoggedIn, controller.getLogin);
 // @route   POST /auth/login
 router.post('/login', isNotLoggedIn, loginValidation, passport.authenticate('local', {
     successRedirect: '/', // back to index page
-    failureRedirect: '/auth/login',
-    failureFlash: true
+    failureRedirect: './login',
 }));
 
 // @desc    Register Page
@@ -27,6 +26,6 @@ router.post("/register",  isNotLoggedIn, registerValidation, controller.register
 // @desc    Log a user out
 // @route   GET /auth/logout
 // note:    should change this to a DELETE in the future
-router.get('/logout', controller.logout);
+router.get('/logout', isLoggedIn, controller.logout);
 
 module.exports = router;

@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     
-    <link rel="stylesheet" href="loginStyle.css">
     <title>Document</title>
 </head>
 <body>
@@ -19,7 +18,6 @@
             <div class="col-5">
 
                 <h1>Sign in</h1>
-                <% const error = messages.error || inputError %>
                 <% if (error) { %>
                     <div class="alert alert-danger" role="alert">
                         <%= error %>
@@ -27,7 +25,7 @@
                 <% } %>
 
                 <!-- Form starts here, will need to change the action -->
-                <form action="/auth/login" method="POST">
+                <form action="./login" method="POST">
                     <div class="form-group">
                       <label for="loginEmail">Email address</label>
                       <input type="email" class="form-control" id="loginEmail" name="email" aria-describedby="emailHelp" placeholder="Enter email">
@@ -58,7 +56,7 @@
                         Or
                     </div>
                     <div class="w-100">
-                        <a class="text-muted" href="register.html">Create New Account</a>
+                        <a class="text-muted" href="./register">Create New Account</a>
                     </div>
                 </div>
             </div>
