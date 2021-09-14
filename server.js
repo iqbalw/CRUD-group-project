@@ -1,15 +1,15 @@
 // Imports
 require('dotenv').config(); // Configure environment variables
 const express = require('express');
-const routes = require('./routes/startup/initRoutes');
+const session = require('express-session');
+const passport = require('passport');
+require('./startup/configPassport')(passport); // Init Passport strategies
+const routes = require('./startup/initRoutes');
 const path = require('path');
-const dotenv = require('dotenv')
 const mongoose = require('mongoose');
+const MongoStore = require('connect-mongo');
 
 const app = express();
-
-//setting up the dotenv 
-dotenv.config();
 
 // Middlewares
 app.use(express.urlencoded({extended: false}));
@@ -18,7 +18,27 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
+// Init Session
+app.use(session({ 
+    secret: process.env.SESSION_SECRET, 
+    resave: false,
+    saveUninitialized: false,
+    unset: 'destroy',
+    cookie: {
+        maxAge: 24 * 60 * 60 * 1000, // one day
+        sameSite: true
+    },
+    store: MongoStore.create({
+        mongoUrl: process.env.DB_CONNECT,
+        ttl: 24 * 60 * 60, // one day
+        autoRemove: 'native',
+        stringify: false
+    })
+}));
 
+// Init Passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Init Routes
 routes(app);
@@ -27,11 +47,10 @@ routes(app);
 mongoose.connect(process.env.DB_CONNECT, 
     {useNewURLParser: true},
    ()=> console.log("Database connection was successful")
-   );
+);
 
 // 404, If request not found
 app.use((req, res) => {
-
     res.status(404).send('Sorry, Request Not found.');
 });
 

@@ -4,8 +4,15 @@
         <title>Index Page</title>
     </head>
     <body>
-        <h1>Index Page</h1>
+        <h1>
+            <% if (user) { %> 
+                <%= `Welcome ${user.name} | Index Page` %> 
+            <% } else { %>
+                Index Page
+            <% } %>
+        </h1>
         <a href="auth/login">Login</a>
         <a href="auth/register">Register</a>
+        <% if (user) { %> <a href="auth/logout">Logout</a> <% } %>
     </body>
 </html>
