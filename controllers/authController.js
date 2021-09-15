@@ -9,6 +9,7 @@ const bcrypt = require("bcryptjs");
  module.exports.getLogin = (req, res) => {
   res.render("login", {
     pageTitle: "Login",
+    user: req.user,
     error: req.session.message
   });
 }
@@ -21,6 +22,7 @@ const bcrypt = require("bcryptjs");
 module.exports.getRegister = (req, res) => {
   res.render('register', { 
     pageTitle: "Register",
+    user: req.user,
     error: req.session.message
   });
 }
