@@ -7,10 +7,12 @@ const bcrypt = require("bcryptjs");
  * @param {Object} res The Response Object
  */
  module.exports.getLogin = (req, res) => {
+  const errorMessage = req.session.message;
+  req.session.message = null; // reset error message
   res.render("login", {
     pageTitle: "Login",
     user: req.user,
-    error: req.session.message
+    error: errorMessage
   });
 }
 
@@ -20,10 +22,12 @@ const bcrypt = require("bcryptjs");
  * @param {Object} res The Response Object
  */
 module.exports.getRegister = (req, res) => {
+  const errorMessage = req.session.message;
+  req.session.message = null; // reset error message
   res.render('register', { 
     pageTitle: "Register",
     user: req.user,
-    error: req.session.message
+    error: errorMessage
   });
 }
 
@@ -38,6 +42,18 @@ module.exports.logout = (req, res) => {
   req.logout();
   res.clearCookie('connect.sid');
   req.session = null;
+  res.redirect('./login');
+}
+
+/**
+ * The login failure route which sets the error message
+ * to be displayed on the screen and then redirects
+ * back to the login page.
+ * @param {Object} req 
+ * @param {Object} res 
+ */
+module.exports.loginFail = (req, res) => {
+  req.session.message = 'Incorrect Email or Password';
   res.redirect('./login');
 }
 
