@@ -1,9 +1,4 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Index Page</title>
-    </head>
-    <body>
+<%- include('partials/head'); %>
         <h1>
             <% if (user) { %> 
                 <%= `Welcome ${user.name} | Index Page` %> 

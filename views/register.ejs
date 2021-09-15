@@ -1,21 +1,16 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-      crossorigin="anonymous"
-    />
-
-    <title>Register Page</title>
-  </head>
-  <body>
+<%- include('partials/head'); %>
     <div class="container-md">
       <!--Had to add style property as for some reason setting the bootstrap height to 100vh did not centre the content into the middle of the page.-->
       <div class="row justify-content-center align-content-center" style="height: 100vh;">
         <div class="col-5">
           <h3>Sign up</h3>
+
+          <% if (error) { %>
+            <div class="alert alert-danger" role="alert">
+                <%= error %>
+            </div>
+          <% } %>
+
           <form class="w-100" action="./register" method="POST">
             <div class="form-group">
               <label for="name">Name</label>
@@ -27,6 +22,7 @@
                 name="name"
               />
             </div>
+            
             <div class="form-group w-100">
               <label for="emailaddress">Email address</label>
               <input
@@ -37,6 +33,7 @@
                 name="email"
               />
             </div>
+
             <div class="form-group">
               <label for="Password">Password</label>
               <input
@@ -48,6 +45,7 @@
                 name="password"
               />
             </div>
+
             <div class="form-group">
               <label for="exampleInputEmail1">Confirm Password</label>
               <input
@@ -57,11 +55,13 @@
                 placeholder="Retype password"
               />
             </div>
+
             <div class="text-center">
               <button type="submit" class="btn btn-primary" id="registerbtn">
                 Register
               </button>
             </div>
+
           </form>
         </div>
       </div>

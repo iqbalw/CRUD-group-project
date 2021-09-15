@@ -7,7 +7,10 @@ const bcrypt = require("bcryptjs");
  * @param {Object} res The Response Object
  */
  module.exports.getLogin = (req, res) => {
-  res.render("login", {error: req.session.message});
+  res.render("login", {
+    pageTitle: "Login",
+    error: req.session.message
+  });
 }
 
 /**
@@ -16,7 +19,10 @@ const bcrypt = require("bcryptjs");
  * @param {Object} res The Response Object
  */
 module.exports.getRegister = (req, res) => {
-  res.render('register');
+  res.render('register', { 
+    pageTitle: "Register",
+    error: req.session.message
+  });
 }
 
 /**
@@ -63,9 +69,8 @@ module.exports.register = async (req, res) => {
   try {
     //saving the user,
     const savedUser = await user.save();
-    //will send back something less verbose in the future but for testing purposes
-    //swend back what is saved
-    res.send({ savedUser });
+    req.session.message = null;
+    res.redirect('./login');
   } catch (err) {
     res.status(500).send("There was error during processing");
   }
