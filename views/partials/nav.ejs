@@ -1,0 +1,24 @@
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container">
+        <a href="/" class="navbar-brand mb-0 h1">
+            <img src="/logo.jpg" width="60" height="60" class="d-inline-block align-middle" alt="Shoes"> SHOP
+        </a>
+        <ul class="nav nav-pills">
+            <% if (user) { %>
+                <li class="nav-item">
+                    <!-- Change to a button or add eventlistener to make a fetch api DELETE call-->
+                    <a class="nav-link active" href="/auth/logout">Logout</a>
+                </li>
+            <% } else { %>
+                <li class="nav-item">
+                    <a class="nav-link" href="/auth/register">Sign Up</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/auth/login">Login</a>
+                </li>
+            <% } %>
+        </ul>
+    </div>        
+</nav>    
+
+

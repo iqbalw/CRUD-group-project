@@ -1,5 +1,5 @@
 require('dotenv').config();
-const brcypt = require('bcryptjs');
+const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 
 const LocalStrategy = require('passport-local').Strategy;
@@ -22,7 +22,7 @@ module.exports = (passport) => {
     }
 
     try {
-      if (await brcypt.compare(password, user.password)) {
+      if (await bcrypt.compare(password, user.password)) {
         return done(null, user); // Successful
       }
       // Incorrect Password 

@@ -10,7 +10,8 @@ const registerValidation = (req, res, next) => {
   });
   const { error } = schema.validate(req.body);
   if (error) {
-    return res.status(400).send(error.details[0].message);
+    req.session.message = error.details[0].message;
+    return res.redirect('./register');
   }
   next(); // move to next middleware
 };
@@ -24,7 +25,8 @@ const loginValidation = (req, res, next) => {
 
   const { error } = schema.validate(req.body);
   if (error) {
-    return res.status(400).render('login', { error: error.details[0].message });
+    req.session.message = error.details[0].message;
+    return res.redirect('./login');
   }
   next();
 };

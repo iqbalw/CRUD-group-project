@@ -12,8 +12,12 @@ router.get("/login", isNotLoggedIn, controller.getLogin);
 // @route   POST /auth/login
 router.post('/login', isNotLoggedIn, loginValidation, passport.authenticate('local', {
     successRedirect: '/', // back to index page
-    failureRedirect: './login',
+    failureRedirect: './failure',
 }));
+
+// @desc    Login failure route
+// @route   GET auth/failure
+router.get('/failure', isNotLoggedIn, controller.loginFail);
 
 // @desc    Register Page
 // @route   GET /auth/register

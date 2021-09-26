@@ -7,7 +7,13 @@ const bcrypt = require("bcryptjs");
  * @param {Object} res The Response Object
  */
  module.exports.getLogin = (req, res) => {
-  res.render("login", {error: req.session.message});
+  const errorMessage = req.session.message;
+  req.session.message = null; // reset error message
+  res.render("login", {
+    pageTitle: "Login",
+    user: req.user,
+    error: errorMessage
+  });
 }
 
 /**
@@ -16,7 +22,13 @@ const bcrypt = require("bcryptjs");
  * @param {Object} res The Response Object
  */
 module.exports.getRegister = (req, res) => {
-  res.render('register');
+  const errorMessage = req.session.message;
+  req.session.message = null; // reset error message
+  res.render('register', { 
+    pageTitle: "Register",
+    user: req.user,
+    error: errorMessage
+  });
 }
 
 /**
@@ -30,6 +42,18 @@ module.exports.logout = (req, res) => {
   req.logout();
   res.clearCookie('connect.sid');
   req.session = null;
+  res.redirect('./login');
+}
+
+/**
+ * The login failure route which sets the error message
+ * to be displayed on the screen and then redirects
+ * back to the login page.
+ * @param {Object} req 
+ * @param {Object} res 
+ */
+module.exports.loginFail = (req, res) => {
+  req.session.message = 'Incorrect Email or Password';
   res.redirect('./login');
 }
 
@@ -63,9 +87,8 @@ module.exports.register = async (req, res) => {
   try {
     //saving the user,
     const savedUser = await user.save();
-    //will send back something less verbose in the future but for testing purposes
-    //swend back what is saved
-    res.send({ savedUser });
+    req.session.message = null;
+    res.redirect('./login');
   } catch (err) {
     res.status(500).send("There was error during processing");
   }
