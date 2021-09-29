@@ -8,6 +8,16 @@
                 Index Page
             <% } %>
         </h1>
+
+        <h1>
+            <% if (products) { %> 
+                <%= `This is a ${products[0].name}` %> 
+                <% } else { %>
+                    Not working
+                <% } %>
+        </h1>
+        
+        
     </div>
 </body>
 </html>
