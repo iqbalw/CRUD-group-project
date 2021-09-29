@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const Product = require("../model/Products");
+const Product = require("../models/Products");
 const { isLoggedIn } = require("../controllers/middleware/verifyUser");
 
 router.get("/products", async (req, res) => {
