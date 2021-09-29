@@ -1,48 +1,68 @@
-require('dotenv').config();
-const bcrypt = require('bcryptjs');
-const User = require('../models/User');
+require("dotenv").config();
+const bcrypt = require("bcryptjs");
+const User = require("../models/User");
 
-const LocalStrategy = require('passport-local').Strategy;
+const LocalStrategy = require("passport-local").Strategy;
 
 /**
  * Initializes the Passport Local-Strategy, where the username is specified
  * as the Email address. It verifies whether the email of an existing user
  * is given and compares the hash of the given password to the stored hash
  * in the database. If successful will serialize the user object by ID, hence
- * creating a session for the current authenticated user. 
- * @param {Object} passport The Passport Object 
+ * creating a session for the current authenticated user.
+ * @param {Object} passport The Passport Object
  */
 module.exports = (passport) => {
-  passport.use(new LocalStrategy({usernameField: 'email'}, 
-  async (email, password, done) =>{
-    const user = await User.findOne({email: email});
-    
-    if (!user) { // Incorrect email
-      return done(null, false, { message: 'Email or Password Incorrect' });
-    }
+  passport.use(
+    new LocalStrategy(
+      { usernameField: "email" },
+      async (email, password, done) => {
+        const user = await User.findOne({ email: email });
 
-    try {
-      if (await bcrypt.compare(password, user.password)) {
-        return done(null, user); // Successful
+        if (!user) {
+          // Incorrect email
+          return done(null, false, { message: "Email or Password Incorrect" });
+        }
+
+        try {
+          if (await bcrypt.compare(password, user.password)) {
+            return done(null, user); // Successful
+          }
+          // Incorrect Password
+          return done(null, false, { message: "Email or Password Incorrect" });
+        } catch (err) {
+          return done(err);
+        }
       }
-      // Incorrect Password 
-      return done(null, false, { message: 'Email or Password Incorrect' });
-    
-    } catch (err) {
-      return done(err);
-    }
-  }));
+    )
+  );
 
   // Include google strategy here
 
-  passport.serializeUser(function(user, done) {
+  const GoogleStrategy = require("passport-google-oauth20").Strategy;
+
+  passport.use(
+    new GoogleStrategy(
+      {
+        clientID: GOOGLE_CLIENT_ID,
+        clientSecret: GOOGLE_CLIENT_SECRET,
+        callbackURL: "http://www.example.com/auth/google/callback",
+      },
+      function (accessToken, refreshToken, profile, cb) {
+        User.findOrCreate({ googleId: profile.id }, function (err, user) {
+          return cb(err, user);
+        });
+      }
+    )
+  );
+
+  passport.serializeUser(function (user, done) {
     done(null, user.id);
   });
-  
-  passport.deserializeUser(function(id, done) {
-    User.findById(id, function(err, user) {
+
+  passport.deserializeUser(function (id, done) {
+    User.findById(id, function (err, user) {
       done(err, user);
     });
   });
-
-}
+};
