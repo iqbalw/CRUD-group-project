@@ -9,21 +9,37 @@
             <% } %>
         </h1>
 
-        <div class="container">
-            <% if (products) { %> 
-                <% for(var i=0; i < products.length; i++) { %>
-                    <div class="row products">
-                        <div class="col"><%= products[i].name %>
-                        <div class="col"><%= products[i].description %>
-                        <div class="col"><%= products[i].price %>
-                      <!-- <td><%= products[i].description %></td>
-                      <td><%= products[i].price %></td> -->
+        <section class="products">
+            <div class="container py-5">
+                <div class="row py-5">
+                    <div class="col-lg-5 m-auto text-center">
+                        <h1>Products</h1>
                     </div>
-                <% } %>
-            <% } else { %>
-                Not working
-            <% } %>
-            </div>
+                </div>
+                <div class="row products">
+                <% if (products) { %> 
+                    <% for(var i=0; i < products.length; i++) { %>
+                            <div class="col-lg-3 text-center">
+                                <div class="card bg-light mb-2">
+                                    <div class="card-body">
+                                        <%= products[i].name %>
+                                    <%= products[i].description %>
+                                    </div>
+                                </div>
+                                $<%= products[i].price %>
+                            </div>
+    
+                                <!-- Display cart button when logged in -->
+                                <% if (user) { %> 
+                                <button type="submit" class="btn btn-primary">Add to cart</button>
+                                <% } %>
+                                <% } %>
+                                <% } else { %>
+                                    Not working
+                                    <% } %>
+                                </div>
+                </div>
+        </section>
     
         
     </div>
