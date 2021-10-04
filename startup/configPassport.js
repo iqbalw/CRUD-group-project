@@ -47,11 +47,16 @@ module.exports = (passport) => {
       {
         clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.CLIENT_SECRET,
-        callbackURL: "http://localhost:5000/google/callback",
+        callbackURL: "http://localhost:3000/auth/google/callback",
       },
       function (accessToken, refreshToken, profile, done) {
-        User.findOrCreate({ googleId: profile.id }, function (err, user) {
-          console.log(cb);
+      //searching for users of type Google
+      console.log(profile.displayName);
+      console.log(profile.emails[0].value);
+      console.log(profile);
+      // console.log(profile.);
+        User.findOrCreate({ name: profile.displayName, email: profile.emails[0].value, type: "google"}, function (err, user) {
+
           return done(err, user);
         });
       }

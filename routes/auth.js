@@ -18,7 +18,7 @@ router.post('/login', isNotLoggedIn, loginValidation, passport.authenticate('loc
 router.get('/google',
   passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-router.post('/google/callback', 
+router.get('/google/callback', 
   passport.authenticate('google', { 
       successRedirect: '/', //back to login page,
       failureRedirect: '/failure' }),
