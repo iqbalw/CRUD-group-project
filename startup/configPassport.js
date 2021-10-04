@@ -1,8 +1,10 @@
 require("dotenv").config();
 const bcrypt = require("bcryptjs");
 const User = require("../models/User");
-
+const passport = require('passport')
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const LocalStrategy = require("passport-local").Strategy;
+
 
 /**
  * Initializes the Passport Local-Strategy, where the username is specified
@@ -39,18 +41,18 @@ module.exports = (passport) => {
 
   // Include google strategy here
 
-  const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
   passport.use(
     new GoogleStrategy(
       {
-        clientID: GOOGLE_CLIENT_ID,
-        clientSecret: GOOGLE_CLIENT_SECRET,
-        callbackURL: "http://www.example.com/auth/google/callback",
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.CLIENT_SECRET,
+        callbackURL: "http://localhost:5000/google/callback",
       },
-      function (accessToken, refreshToken, profile, cb) {
+      function (accessToken, refreshToken, profile, done) {
         User.findOrCreate({ googleId: profile.id }, function (err, user) {
-          return cb(err, user);
+          console.log(cb);
+          return done(err, user);
         });
       }
     )

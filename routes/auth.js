@@ -15,6 +15,18 @@ router.post('/login', isNotLoggedIn, loginValidation, passport.authenticate('loc
     failureRedirect: './failure',
 }));
 
+router.get('/google',
+  passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+router.post('/google/callback', 
+  passport.authenticate('google', { 
+      successRedirect: '/', //back to login page,
+      failureRedirect: '/failure' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/');
+  });
+
 // @desc    Login failure route
 // @route   GET auth/failure
 router.get('/failure', isNotLoggedIn, controller.loginFail);
