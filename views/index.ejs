@@ -9,14 +9,22 @@
             <% } %>
         </h1>
 
-        <h1>
+        <div class="container">
             <% if (products) { %> 
-                <%= `This is a ${products[0].name}` %> 
-                <% } else { %>
-                    Not working
+                <% for(var i=0; i < products.length; i++) { %>
+                    <div class="row products">
+                        <div class="col"><%= products[i].name %>
+                        <div class="col"><%= products[i].description %>
+                        <div class="col"><%= products[i].price %>
+                      <!-- <td><%= products[i].description %></td>
+                      <td><%= products[i].price %></td> -->
+                    </div>
                 <% } %>
-        </h1>
-        
+            <% } else { %>
+                Not working
+            <% } %>
+            </div>
+    
         
     </div>
 </body>
