@@ -22,22 +22,25 @@
                             <div class="col-lg-3 text-center">
                                 <div class="card bg-light mb-2">
                                     <div class="card-body">
-                                        <%= products[i].name %>
-                                    <%= products[i].description %>
+                                        <p><%= products[i].name %></p>
+                                    <p><%= products[i].description %></p>
                                     </div>
                                 </div>
-                                $<%= products[i].price %>
-                            </div>
-    
-                                <!-- Display cart button when logged in -->
-                                <% if (user) { %> 
-                                <button type="submit" class="btn btn-primary">Add to cart</button>
-                                <% } %>
-                                <% } %>
-                                <% } else { %>
-                                    Not working
+                                <p>
+                                    $<%= products[i].price %>
+                                </p>
+
+                                 <!-- Display cart button when logged in -->
+                                 <% if (user) { %> 
+                                    <button type="submit" class="btn btn-primary">Add to cart</button>
                                     <% } %>
-                                </div>
+                            </div>
+                                    
+                    <% } %>
+                <% } else { %>
+                    Not working
+                <% } %>
+                </div>
                 </div>
         </section>
     
