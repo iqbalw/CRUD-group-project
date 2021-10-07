@@ -39,9 +39,6 @@ module.exports = (passport) => {
     )
   );
 
-  // Include google strategy here
-
-
   passport.use(
     new GoogleStrategy(
       {
@@ -50,14 +47,12 @@ module.exports = (passport) => {
         callbackURL: "http://localhost:3000/auth/google/callback",
       },
       function (accessToken, refreshToken, profile, done) {
-      //searching for users of type Google
-      console.log(profile.displayName);
-      console.log(profile.emails[0].value);
-      console.log(profile);
-      // console.log(profile.);
-        User.findOrCreate({ name: profile.displayName, email: profile.emails[0].value, type: "google"}, function (err, user) {
-
-          return done(err, user);
+        User.findOrCreate({ 
+          name: profile.displayName, 
+          email: profile.emails[0].value, 
+          type: "google"}, 
+          function (err, user) {
+            return done(err, user);
         });
       }
     )
