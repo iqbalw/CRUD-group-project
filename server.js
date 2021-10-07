@@ -25,8 +25,7 @@ app.use(session({
     saveUninitialized: false,
     unset: 'destroy',
     cookie: {
-        maxAge: 24 * 60 * 60 * 1000, // one day
-        sameSite: true
+        maxAge: 24 * 60 * 60 * 1000 // one day
     },
     store: MongoStore.create({
         mongoUrl: process.env.DB_CONNECT,

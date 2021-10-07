@@ -17,11 +17,11 @@ router.post('/login', isNotLoggedIn, loginValidation, passport.authenticate('loc
 
 // @desc    Authenticate User with Passport Google Strategy
 // @route   GET /auth/google
-router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+router.get('/google', isNotLoggedIn, passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 // @desc    After authorization Google redirects back to application
 // @route   GET /auth/google/callback
-router.get('/google/callback', passport.authenticate('google', { 
+router.get('/google/callback', isNotLoggedIn, passport.authenticate('google', { 
       successRedirect: '/', //back to index page,
       failureRedirect: '../failure' }),
 );
