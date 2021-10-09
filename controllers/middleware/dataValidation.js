@@ -31,5 +31,21 @@ const loginValidation = (req, res, next) => {
   next();
 };
 
+const productValidation = (data) => {
+  const schema = Joi.object({
+      name: Joi.string()
+          .required()
+          .min(6),
+      desc: Joi.string()
+          .required()
+          .min(6),
+      price: Joi.number()
+          .greater(0)
+          .required()
+  });
+  return schema.validate(data);
+}
+
+module.exports.productValidaiton = productValidation;
 module.exports.registerValidation = registerValidation;
 module.exports.loginValidation = loginValidation;
