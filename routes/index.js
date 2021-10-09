@@ -2,11 +2,6 @@ const Product = require("../models/Products");
 const router = require("express").Router();
 
 router.get("/", async (req, res) => {
-  // res.render('index', {
-  //     pageTitle: "Home",
-  //     products: null,
-  //     user: req.user,
-  // });
   try {
     const products = await Product.find();
     // res.send(products);

@@ -1,6 +1,11 @@
 const router = require("express").Router();
 const Product = require("../models/Products");
+const controller = require("../controllers/productController");
 const { isLoggedIn } = require("../controllers/middleware/verifyUser");
+
+// @desc    Login Page
+// @route   GET /products/add
+router.get("/add", isLoggedIn, controller.getProductPage);
 
 router.get("/", async (req, res) => {
   try {
