@@ -1,6 +1,3 @@
-const User = require("../models/User");
-const bcrypt = require("bcryptjs");
-
 /**
  * Renders the add product page
  * @param {Object} req The Request Object 

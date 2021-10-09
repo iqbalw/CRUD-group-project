@@ -31,21 +31,27 @@ const loginValidation = (req, res, next) => {
   next();
 };
 
-const productValidation = (data) => {
+const productValidation = (req, res, next) => {
+  console.log(req.body);
   const schema = Joi.object({
       name: Joi.string()
           .required()
-          .min(6),
+          .min(3),
       desc: Joi.string()
           .required()
-          .min(6),
+          .min(3),
       price: Joi.number()
           .greater(0)
           .required()
   });
-  return schema.validate(data);
+  const { error } = schema.validate(req.body);
+  if (error) {
+    req.session.message = error.details[0].message;
+    return res.redirect('./add');
+  }
+  next();
 }
 
-module.exports.productValidaiton = productValidation;
+module.exports.productValidation = productValidation;
 module.exports.registerValidation = registerValidation;
 module.exports.loginValidation = loginValidation;

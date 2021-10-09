@@ -30,17 +30,17 @@ router.get("/:name", async (req, res) => {
   }
 });
 
-router.post('/products', async (req, res) => {
-  // Perform Validation Checks
-  const { error } = productValidation(req.body);
-  if (error) { return res.status(400).send(error.details[0].message); }
+router.post('/add', productValidation, async (req, res) => {
+  console.log("adding product...")
 
   // Create New Product
-  const product = new Product({
+  const product = new Product({ 
       name: req.body.name,
+      description: req.body.desc,
       price: req.body.price
   });
 
+  console.log(product);
   // Save Product in Database
   try {
       const savedProduct = await product.save();
