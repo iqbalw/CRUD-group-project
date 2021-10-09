@@ -27,6 +27,24 @@ const userSchema = new mongoose.Schema({
     enum: ['local', 'google']
 
   },
+  // cart: {
+  //   items: [{
+  //     productID: {
+  //       type: mongoose.Schema.Types.ObjectId,
+  //       ref: 'Product',
+  //       required: true
+  //     },
+  //     quantity: {
+  //       type: 'Number',
+  //       required: true
+  //     }
+  //   }]
+  // },
+  // cart: [{
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: 'Product',
+  //   required: true
+  // }],
   date: {
     type: Date,
     default: Date.now,
