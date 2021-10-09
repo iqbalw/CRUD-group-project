@@ -3,9 +3,9 @@ const Product = require('../models/Products');
 const User = require('../models/User');
 const { isLoggedIn } = require('../controllers/middleware/verifyUser');
 
-router.get('/', isLoggedIn, (req, res) => {
-    console.log(req.user);
-    res.send(req.user.cart);
+router.get('/', isLoggedIn, async (req, res) => {
+    const user = await User.findById(req.user._id).populate('cart');
+    res.json(user.cart);
 });
 
 router.post('/add', isLoggedIn, async (req, res) => {
