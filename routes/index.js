@@ -1,11 +1,19 @@
-const router = require('express').Router();
+const Product = require("../models/Products");
+const router = require("express").Router();
 
-router.get('/', (req, res) => {
-    res.render('index', {
-        pageTitle: "Home", 
-        user: req.user,
+router.get("/", async (req, res) => {
+  try {
+    const products = await Product.find();
+    // res.send(products);
+    console.log("here are your " + products);
+    res.render("index", {
+      pageTitle: "Home",
+      products: products,
+      user: req.user,
     });
+  } catch (err) {
+    res.status(500).send("No products retrieved.");
+  }
 });
-
 
 module.exports = router;

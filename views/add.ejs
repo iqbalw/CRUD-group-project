@@ -1,0 +1,42 @@
+<%- include('partials/head'); %>
+<%- include('partials/nav'); %>
+<div class="container">
+    <h1> Add Product </h1>
+
+    <!-- Form -->
+    <form action="./add" method="POST">
+
+        <!-- Product Name -->
+        <div class="form-group">
+          <label for="productName">Product name</label>
+          <input type="text" class="form-control" id="name" name="name" placeholder="Enter product name">
+
+        </div>
+
+        <!-- Product Description -->
+        <div class="form-group">
+          <label for="productDescription">Description</label>
+          <input type="text" class="form-control" id="desc" name="desc"  placeholder="Enter product description">
+        </div>
+
+        <!-- Product Price -->
+        <div class="form-group">
+            <label for="productPrice">Price ($)</label>
+            <input type=number step=any class="form-control" id="price" name="price" placeholder="Enter product price, e.g. 3.50">
+          </div>
+
+        
+        <!-- Add product button -->
+        <div class="text-center">
+            <div class="w-100 py-2">
+              <button type="submit" class="btn btn-primary">Add</button>
+            </div>
+        </div>
+
+    </form>
+
+
+</div>
+
+</body>
+</html>

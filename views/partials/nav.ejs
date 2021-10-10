@@ -6,7 +6,12 @@
         <ul class="nav nav-pills">
             <% if (user) { %>
                 <li class="nav-item">
-                    <!-- Change to a button or add eventlistener to make a fetch api DELETE call-->
+                    <!-- Change this -->
+                    <a class="nav-link" href="/products/add">Add Product</a>
+                </li>
+
+                <li class="nav-item">
+                    <!-- Change to a button or add eventlistener to make a fetch api DELETE call -->
                     <a class="nav-link active" href="/auth/logout">Logout</a>
                 </li>
             <% } else { %>
