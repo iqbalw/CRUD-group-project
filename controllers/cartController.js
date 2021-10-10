@@ -45,7 +45,9 @@ module.exports.addToCart = async (req, res) => {
     }
 
     await user.save();
-    res.send(user);
+    // if user adding to cart from another page then don't redirect
+    if (!req.body.onCartPage) { return res.status(201).json(user.cart); }
+    res.redirect('/cart');
 }
 
 /**
@@ -74,6 +76,6 @@ module.exports.removeFromCart = async (req, res) => {
     if (user.cart[index].quantity === 0) { user.cart.splice(index, 1); }
 
     await user.save();
-    res.send(user);
+    res.redirect('/cart');
 
 }
