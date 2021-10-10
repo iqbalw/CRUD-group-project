@@ -5,20 +5,19 @@ const productSchema = new mongoose.Schema({
 name:{
  type: String,
  required: true,
- min: 6,
+ min: 3,
  max: 255,
 },
 description:{
  type: String,
  required: true,
  max: 1024,
- min: 6
+ min: 3
 },
 price:{
  type: Number,
  required: true,
- max: 4,
- min: 4
+ min: 0.01,
 },
 
 
