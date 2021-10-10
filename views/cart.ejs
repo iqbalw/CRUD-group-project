@@ -2,52 +2,44 @@
 <%- include('partials/nav'); %>
 
 <div class="container">
-    
-        <table class="table">
-            <thead>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col" style="vertical-align: middle;">#</th>
+                <th scope="col">Image</th>
+                <th scope="col">Product</th>
+                <th scope="col">Descrition</th>
+                <th scope="col">Price </th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Total </th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <% for (let i = 0; i < cart.length; i++) { %>
                 <tr>
-                    <th scope="col" style="vertical-align: middle;">#</th>
-                    <th scope="col">Image</th>
-                    <th scope="col">Product</th>
-                    <th scope="col">Descrition</th>
-                    <th scope="col">Price </th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Total </th>
-                    <th scope="col">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row">1</th>
+                    <th scope="row" id=<%= cart[i].productID._id %>><%= i + 1 %></th>
                     <th scope="row"><img class="" src="http://via.placeholder.com/300x180" alt="Card image cap"></th>
-                    <td>Product Title</td>
-                    <td>Product Description</td>
-                    <td>$50</td>
-                    <td>4</td>
-                    <td>$200</td>
+                    <td><%= cart[i].productID.name %></td>
+                    <td><%= cart[i].productID.description %></td>
+                    <td><%= '$' + cart[i].productID.price %></td>
+                    <td><%= cart[i].quantity %></td>
+                    <td><%= '$' + cart[i].productID.price * cart[i].quantity %></td>
                     <td><i class="fas fa-plus mr-2"></i><i class="fas fa-minus mr-2"></i><i class="fas fa-trash"></i></td>
                 </tr>
+            <% } %>
 
-                <tr>
-                    <th scope="row">1</th>
-                    <th scope="row"><img class="" src="http://via.placeholder.com/300x180" alt="Card image cap"></th>
-                    <td>Product Title</td>
-                    <td>Product Description</td>
-                    <td>$50</td>
-                    <td>4</td>
-                    <td>$200</td>
-                    <td><i class="fas fa-plus mr-2"></i><i class="fas fa-minus mr-2"></i><i class="fas fa-trash"></i></td>
-                </tr>
+        </tbody>
+    </table>
 
-            </tbody>
-        </table>
+    <div class="d-flex justify-content-end">
+        <h5>Total: <span class="price text-success">89$</span></h5>
+    </div>
 
-        <div class="d-flex justify-content-end">
-            <h5>Total: <span class="price text-success">89$</span></h5>
-        </div>
-
-        <div class="d-flex justify-content-end">
-            <button class="btn btn-success">Checkout</button>
-        </div>
+    <div class="d-flex justify-content-end">
+        <button class="btn btn-success">Checkout</button>
+    </div>
 
 </div>

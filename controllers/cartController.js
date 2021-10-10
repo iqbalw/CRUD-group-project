@@ -12,6 +12,7 @@ module.exports.getCartPage = async (req, res) => {
     const user = await User.findById(req.user._id).populate('cart.productID');
     res.render('cart', {
         user: user,
+        cart: user.cart,
         pageTitle: "Shopping Cart"
     });
 }
