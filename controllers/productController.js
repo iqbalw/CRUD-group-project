@@ -6,8 +6,11 @@ const Product = require("../models/Products");
  * @param {Object} res The Response Object
  */
  module.exports.getProductPage = (req, res) => {
-  const errorMessage = req.session.message;
-  req.session.message = null; // reset error message
+  let errorMessage = null;
+  if (req.session.message) {
+   errorMessage = req.session.message;
+   req.session.message = null; // reset error message
+  }
   res.render("add", {
     pageTitle: "Add Product",
     user: req.user,
@@ -33,6 +36,11 @@ module.exports.getProducts = async (req, res) => {
   }
 }
 
+/**
+ * Retrieves a specific product from the database
+ * @param {Object} req The Request Object 
+ * @param {Object} res The Response Object
+ */
 module.exports.getProduct = async (req, res) => {
   try {
     const products = await Product.find({ name: req.params.name });
@@ -42,6 +50,11 @@ module.exports.getProduct = async (req, res) => {
   }
 }
 
+/**
+ * Creates a product to the database
+ * @param {Object} req The Request Object 
+ * @param {Object} res The Response Object
+ */
 module.exports.addProduct = async (req, res) => {
   console.log("adding product...")
 

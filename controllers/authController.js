@@ -7,8 +7,11 @@ const bcrypt = require("bcryptjs");
  * @param {Object} res The Response Object
  */
  module.exports.getLogin = (req, res) => {
-  const errorMessage = req.session.message;
-  req.session.message = null; // reset error message
+  let errorMessage = null;
+  if (req.session.message) { // reset error message
+    errorMessage = req.session.message;
+    req.session.message = null; 
+  }
   res.render("login", {
     pageTitle: "Login",
     user: req.user,
@@ -22,8 +25,11 @@ const bcrypt = require("bcryptjs");
  * @param {Object} res The Response Object
  */
 module.exports.getRegister = (req, res) => {
-  const errorMessage = req.session.message;
-  req.session.message = null; // reset error message
+  let errorMessage = null;
+  if (req.session.message) { // reset error message
+    errorMessage = req.session.message;
+    req.session.message = null; 
+  }
   res.render('register', { 
     pageTitle: "Register",
     user: req.user,

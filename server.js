@@ -14,8 +14,8 @@ const app = express();
 // Middlewares
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
+//Allows users to add static files in the public directory
 app.use(express.static(path.join(__dirname, 'public')));
-app.use("/controllers", express.static('./controllers/'));
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
@@ -26,8 +26,7 @@ app.use(session({
     saveUninitialized: false,
     unset: 'destroy',
     cookie: {
-        maxAge: 24 * 60 * 60 * 1000, // one day
-        sameSite: true
+        maxAge: 24 * 60 * 60 * 1000 // one day
     },
     store: MongoStore.create({
         mongoUrl: process.env.DB_CONNECT,

@@ -15,6 +15,17 @@ router.post('/login', isNotLoggedIn, loginValidation, passport.authenticate('loc
     failureRedirect: './failure',
 }));
 
+// @desc    Authenticate User with Passport Google Strategy
+// @route   GET /auth/google
+router.get('/google', isNotLoggedIn, passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+// @desc    After authorization Google redirects back to application
+// @route   GET /auth/google/callback
+router.get('/google/callback', isNotLoggedIn, passport.authenticate('google', { 
+      successRedirect: '/', //back to index page,
+      failureRedirect: '../failure' }),
+);
+
 // @desc    Login failure route
 // @route   GET auth/failure
 router.get('/failure', isNotLoggedIn, controller.loginFail);
