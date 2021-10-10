@@ -6,8 +6,11 @@ const Product = require("../models/Products");
  * @param {Object} res The Response Object
  */
  module.exports.getProductPage = (req, res) => {
-  const errorMessage = req.session.message;
-  req.session.message = null; // reset error message
+  let errorMessage = null;
+  if (req.session.message) {
+   errorMessage = req.session.message;
+   req.session.message = null; // reset error message
+  }
   res.render("add", {
     pageTitle: "Add Product",
     user: req.user,
