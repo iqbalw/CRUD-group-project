@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+var findOrCreate = require('mongoose-findorcreate')
+
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -25,9 +27,21 @@ const userSchema = new mongoose.Schema({
     enum: ['local', 'google']
 
   },
+  cart: [{
+    productID: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Product',
+      required: true
+    },
+    quantity: {
+      type: 'Number',
+      required: true
+    }
+  }],
   date: {
     type: Date,
     default: Date.now,
   },
 });
+userSchema.plugin(findOrCreate);
 module.exports = mongoose.model("User", userSchema);
