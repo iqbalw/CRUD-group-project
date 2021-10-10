@@ -7,12 +7,17 @@
             <% if (user) { %>
                 <li class="nav-item">
                     <!-- Change this -->
-                    <a class="nav-link" href="/products/add">Add Product</a>
+                    <a class="nav-link btn-outline-light" href="/products/add">Add Product</a>
+                </li>
+
+                <li class="nav-item border border-right-10 border-dark">
+                    <!-- Change this -->
+                    <a class="nav-link btn-outline-light" href="/cart">View Cart</a>
                 </li>
 
                 <li class="nav-item">
                     <!-- Change to a button or add eventlistener to make a fetch api DELETE call -->
-                    <a class="nav-link active" href="/auth/logout">Logout</a>
+                    <a class="nav-link active btn-outline-danger" href="/auth/logout">Logout</a>
                 </li>
             <% } else { %>
                 <li class="nav-item">

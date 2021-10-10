@@ -10,7 +10,10 @@ const User = require('../models/User');
  */
 module.exports.getCartPage = async (req, res) => {
     const user = await User.findById(req.user._id).populate('cart.productID');
-    res.json(user.cart);
+    res.render('cart', {
+        user: user,
+        pageTitle: "Shopping Cart"
+    });
 }
 
 /**
