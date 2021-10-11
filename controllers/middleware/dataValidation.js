@@ -52,6 +52,38 @@ const productValidation = (req, res, next) => {
   next();
 }
 
+// validates the values passed for an add to cart request
+const addToCartValidation = (req, res, next) => {
+  const schema = Joi.object({
+    productID: Joi.string()
+              .min(3)
+              .required(),
+    onCartPage: Joi.boolean()
+              .required()
+  });
+
+  const { error } = schema.validate(req.body);
+  if (error) {
+    return res.status(400).send(error.details[0].message);
+  }
+  next();
+}
+
+// validates the values passed for a remove from cart request
+const removeFromCartValidation = (req, res, next) => {
+  const schema = Joi.object({
+    productID: Joi.string().required()
+  });
+
+  const { error } = schema.validate(req.body);
+  if (error) {
+    return res.status(400).send(error.details[0].message);
+  }
+  next();
+}
+
 module.exports.productValidation = productValidation;
 module.exports.registerValidation = registerValidation;
 module.exports.loginValidation = loginValidation;
+module.exports.removeFromCartValidation = removeFromCartValidation;
+module.exports.addToCartValidation = addToCartValidation;
