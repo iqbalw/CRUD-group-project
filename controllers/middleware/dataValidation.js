@@ -54,6 +54,8 @@ const productValidation = (req, res, next) => {
 
 // validates the values passed for an add to cart request
 const addToCartValidation = (req, res, next) => {
+  console.log(req.body);
+
   const schema = Joi.object({
     productID: Joi.string()
               .min(3)
@@ -64,6 +66,7 @@ const addToCartValidation = (req, res, next) => {
 
   const { error } = schema.validate(req.body);
   if (error) {
+    console.log(req.body);
     return res.status(400).send(error.details[0].message);
   }
   next();
