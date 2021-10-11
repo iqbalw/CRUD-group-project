@@ -93,11 +93,12 @@ module.exports.addProduct = async (req, res) => {
 }
 
 module.exports.editProduct = async (req, res) => {
-  const { error } = productValidaiton(req.body);
+  const { error } = productValidation(req.body);
   if (error) { return res.status(400).send(error.details[0].message); }
 
   try {
       const query = {'name': req.params.name};
+      console.log(query);
       await Product.findOneAndUpdate(query, req.body, {upsert: true});
       res.status(201).send(req.body);
   } catch (err) {
