@@ -19,6 +19,27 @@ const Product = require("../models/Products");
 }
 
 /**
+ * Renders the edit products page
+ * @param {Object} req The Request Object 
+ * @param {Object} res The Response Object
+ */
+ module.exports.getEditPage = async (req, res) => {
+  const products = await Product.find();
+
+  let errorMessage = null;
+  if (req.session.message) {
+   errorMessage = req.session.message;
+   req.session.message = null; // reset error message
+  }
+  res.render("edit", {
+    pageTitle: "Edit Products",
+    user: req.user,
+    products: products,
+    error: errorMessage
+  });
+}
+
+/**
  * Retrieves products from the database
  * @param {Object} req The Request Object 
  * @param {Object} res The Response Object
@@ -26,7 +47,6 @@ const Product = require("../models/Products");
 module.exports.getProducts = async (req, res) => {
   try {
     const products = await Product.find();
-    // res.send(products);
     res.render('index', {
         products: products.name, 
         user: req.user,
@@ -56,8 +76,6 @@ module.exports.getProduct = async (req, res) => {
  * @param {Object} res The Response Object
  */
 module.exports.addProduct = async (req, res) => {
-  console.log("adding product...")
-
   // Create New Product
   const product = new Product({ 
       name: req.body.name,
@@ -65,7 +83,6 @@ module.exports.addProduct = async (req, res) => {
       price: req.body.price
   });
 
-  console.log(product);
   // Save Product in Database
   try {
       const savedProduct = await product.save();
