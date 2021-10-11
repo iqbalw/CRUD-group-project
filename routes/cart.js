@@ -14,4 +14,8 @@ router.post('/add', isLoggedIn, controller.addToCart);
 // @route   /cart/remove
 router.delete('/remove', isLoggedIn, controller.removeFromCart);
 
+// @desc    Remove and item object (product and quantity) from the cart
+// @route   /cart/remove/all
+router.delete('/remove/all', isLoggedIn, controller.removeAllFromCart);
+
 module.exports = router;

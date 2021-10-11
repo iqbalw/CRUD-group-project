@@ -79,3 +79,31 @@ module.exports.removeFromCart = async (req, res) => {
     res.redirect('/cart');
 
 }
+
+/**
+ * Removes a product from the cart array regardless of the quanitity.
+ * Will return a bad request if the specified product is not in the 
+ * cart or it doesn't exist. The product is specified through the 
+ * request body by its ID. Upon success will redirect back to the
+ * user's cart page.
+ * @param {Object} req 
+ * @param {Object} res 
+ * @returns 
+ */
+module.exports.removeAllFromCart = async (req, res) => {
+    // Check is given product exists
+    const product = await Product.findById(req.body.productID);
+    if (!product) { res.status(400).send('Product Does not exist'); }
+
+    // Get user mongoose model
+    const user = await User.findById(req.user._id);
+    
+    // Find product to remove and check if present in cart
+    const index = user.cart.findIndex(element => product._id.equals(element.productID));
+    if (index < 0) { return res.status(400).send('Product not in cart'); }
+
+    user.cart.splice(index, 1);
+
+    await user.save();
+    res.redirect('/cart');
+}
