@@ -19,7 +19,6 @@ for (let i = 0; i < buttons.length; i++) {
 
 async function buttonsControl(button, cards, i) {
 
-  // console.log(cards.id);
   let data = {
    productID: cards.id,
    onCartPage: false,
@@ -37,18 +36,8 @@ async function buttonsControl(button, cards, i) {
   } catch (err) {
     console.error(`Error: ${err}`);
   }
-  // console.log(button.className);
 }
 
 function cardControl(button, i) {
   console.log(button);
-  // console.log(button.className);
 }
-
-// document.addEventListener('click', function(e){
-//  if(e.target && e.target.id== 'myDynamicallyAddedElementID'){
-//      alert("Adding")
-//      console.log(e.target);
-//      console.log(document.getElementById("card"));
-//  }
-// });
