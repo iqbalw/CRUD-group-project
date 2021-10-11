@@ -91,3 +91,25 @@ module.exports.addProduct = async (req, res) => {
       res.status(400).send(err);
   }
 }
+
+module.exports.editProduct = async (req, res) => {
+  const { error } = productValidaiton(req.body);
+  if (error) { return res.status(400).send(error.details[0].message); }
+
+  try {
+      const query = {'name': req.params.name};
+      await Product.findOneAndUpdate(query, req.body, {upsert: true});
+      res.status(201).send(req.body);
+  } catch (err) {
+      res.status(500).send(err);
+  }
+}
+
+module.exports.deleteProduct = async (req, res) => {
+  try {
+      const product = await Product.findOneAndDelete({'name': req.params.name});
+      res.status(204)
+  } catch (err) {
+      res.status(500).json(err);
+  }
+}
