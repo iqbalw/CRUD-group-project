@@ -16,19 +16,20 @@
                         <h1>Products</h1>
                     </div>
                 </div>
-                <div class="row products">
+                <div class="row products" id="card">
                 <% if (products) { %> 
                     <% for(var i=0; i < products.length; i++) { %>
-                            <div class="col-lg-3 text-center py-5">
+                            <div class="col-lg-3 text-center py-5" id = <%=products[i]._id %> >
                                 <div class="card bg-light mb-2">
-                                    <div class="card-body" id=<%= products[i]._id %>>
-                                        <p><%= products[i].name %></p>
+                                    <div class="card-body">
+                                        <p id ="productname"><%= products[i].name %></p>
                                     <p><%= products[i].description %></p>
                                     </div>
                                 </div>
                                 <p>
                                     $<%= products[i].price %>
                                 </p>
+                                
 
                                  <!-- Display cart button when logged in -->
                                  <% if (user) { %> 

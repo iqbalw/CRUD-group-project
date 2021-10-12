@@ -4,8 +4,6 @@ const router = require("express").Router();
 router.get("/", async (req, res) => {
   try {
     const products = await Product.find();
-    // res.send(products);
-    console.log("here are your " + products);
     res.render("index", {
       pageTitle: "Home",
       products: products,
