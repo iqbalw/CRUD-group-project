@@ -62,8 +62,9 @@ module.exports.getProducts = async (req, res) => {
  * @param {Object} res The Response Object
  */
 module.exports.getProduct = async (req, res) => {
+  console.log(req.params)
   try {
-    const products = await Product.find({ name: req.params.name });
+    const products = await Product.find({ _id: req.params.id });
     res.send(products);
   } catch (err) {
     res.status(400).send("No products retrieved.");
@@ -108,7 +109,7 @@ module.exports.editProduct = async (req, res) => {
 
 module.exports.deleteProduct = async (req, res) => {
   try {
-    const product = await Product.findOneAndDelete({ name: req.body.name });
+    const product = await Product.findOneAndDelete({ _id: req.body._id });
     console.log(product);
     res.status(204);
   } catch (err) {

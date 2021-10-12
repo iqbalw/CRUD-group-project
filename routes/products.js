@@ -13,7 +13,7 @@ router.get("/edit", isLoggedIn, controller.getEditPage);
 
 router.get("/", isLoggedIn, controller.getProducts);
 
-router.get("/:name", isLoggedIn, controller.getProduct);
+router.get("/:id", isLoggedIn, controller.getProduct);
 
 router.post('/add', productValidation, controller.addProduct);
 
