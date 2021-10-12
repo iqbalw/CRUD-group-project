@@ -1,6 +1,5 @@
 window.addEventListener("load", init);
 function init() {
-  console.log("running init...");
   clearAll();
   bindEvents();
 }
@@ -39,6 +38,7 @@ function deleteRecord() {
   console.log("id = " + productId);
   console.log("name = " + productName);
 
+  // When product is deleted show a message to the user
   document.getElementById("pageMessage").innerHTML = `
         <div id="currentProduct" class="alert alert-success" role="alert">
         Successfully <strong>deleted</strong> product "${productName}".
@@ -68,6 +68,7 @@ function updateRecord() {
   console.log("id = " + productId);
   console.log("name = " + productName);
 
+  // When product is updated show a message to the user
   document.getElementById("pageMessage").innerHTML = `
       <div id="currentProduct" class="alert alert-success" role="alert">
       Successfully <strong>updated</strong> product "${productName}".
@@ -83,8 +84,7 @@ function updateRecord() {
       description: document.getElementById("desc").value,
       price: parseFloat(document.getElementById("price").value),
     }),
-  })
-    .then((res) => console.log(res.json))
+  }).then((res) => console.log(res.json));
 
   //clear form
   clearAll();
