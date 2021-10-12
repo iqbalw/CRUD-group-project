@@ -47,7 +47,7 @@ function deleteRecord() {
         </div>
         `;
 
-    fetch("http://localhost:3000/products/delete", {
+    fetch(window.location.origin + "/products/delete", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -86,7 +86,7 @@ function updateRecord() {
         </div>
         `;
 
-    fetch("http://localhost:3000/products/edit", {
+    fetch(window.location.origin + "/products/edit", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
