@@ -30,6 +30,7 @@ for (let i = 0; i < buttons.length; i++) {
  */
 async function addToCart(cardInfo) {
   //creating data as a object to Stringify for parsing
+  let shoeName = cardInfo.querySelector("#productname").innerHTML;
   let data = {
     productID: cardInfo.id,
     onCartPage: false,
@@ -46,6 +47,7 @@ async function addToCart(cardInfo) {
       body: JSON.stringify(data),
     });
     //if it is completed print this out for debugging
+    alert(`${shoeName} was added to cart!`)
     console.log("Completed!", response);
   } catch (err) {
     //if it is incomplete print the error out for debugging
