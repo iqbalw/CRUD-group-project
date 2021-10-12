@@ -17,9 +17,9 @@ router.get("/:name", isLoggedIn, controller.getProduct);
 
 router.post('/add', productValidation, controller.addProduct);
 
-router.put('/edit/:name', productValidation, controller.editProduct);
+router.put('/edit', isLoggedIn, controller.editProduct);
 
-router.delete('/delete/:name', isLoggedIn, controller.deleteProduct);
+router.delete('/delete', controller.deleteProduct);
 
 // Protected route example/test
 // router.get("/", isLoggedIn, (req, res) => {

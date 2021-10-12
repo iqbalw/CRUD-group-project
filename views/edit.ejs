@@ -2,59 +2,50 @@
 <%- include('partials/nav'); %>
 <div class="container">
    <h1> Edit Products </h1>
-   <div class="row products">
-      
-      <% if (products) { %> 
-      <div id="accordion">
-         <% for(var i=0; i < products.length; i++) { %>
-         <div class="card">
-            <div class="card-header" id="headingOne">
-               <h5 class="mb-0">
-                  <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                  <%= products[i].name %>
-                  </button>
-               </h5>
-            </div>
-            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-               <div class="card-body">
-                  <!-- Form -->
-                  <form action="./edit" method="PUT">
-                  <form class="row gy-2 gx-3 align-items-center">
 
-                     <!-- Product name -->
-                     <div class="col-auto">
-                        <label class="visually-hidden" for="autoSizingInput">Product name</label>
-                        <input type="text" class="form-control" id="autoSizingInput" placeholder="Change product name">
-                     </div>
+   <!-- Form: NEED TO CHANGE ACTION AND METHOD ATTRIBUTES-->
+    <form action="./edit" method="PUT">
 
-                     <!-- Product description -->
-                     <div class="col-auto">
-                        <label class="visually-hidden" for="autoSizingInput">Description</label>
-                        <input type="text" class="form-control" id="autoSizingInput" placeholder="Change product description">
-                     </div>
+      <div class="py-2 pb-5">
+         <select class="form-select pr-5" aria-label="Default select example">
+            <option selected>Select a product to modify</option>
+            <% if (products) { %> 
+               <% for(var i=0; i < products.length; i++) { %>
+                  <option value=<%= products[i]._id %>> <%= products[i].name %></option>
+                  <% } %>
+            <% } %>
+         </select>
+       </div>
 
-                     <!-- Product price -->
-                     <div class="col-auto">
-                        <label class="visually-hidden" for="autoSizingInputGroup">Price</label>
-                        <div class="input-group">
-                           <div class="input-group-text">$</div>
-                           <input type=number step=any class="form-control" id="autoSizingInputGroup" placeholder="Change product price, e.g. 3.50">
-                        </div>
-                     </div>
-                     
-                     <div class="col-auto">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                     </div>
-                  </form>
-               </div>
-            </div>
-         </div>
-         <% } %>
+      <!-- Product Name -->
+      <div class="form-group">
+        <label for="productName">Product name</label>
+        <input type="text" class="form-control" id="name" name="name" placeholder="Change product name">
+
       </div>
-      <% } else { %>
-      Not working
-      <% } %>
-   </div>
+
+      <!-- Product Description -->
+      <div class="form-group">
+        <label for="productDescription">Description</label>
+        <input type="text" class="form-control" id="desc" name="desc"  placeholder="Change product description">
+      </div>
+
+      <!-- Product Price -->
+      <div class="form-group">
+          <label for="productPrice">Price ($)</label>
+          <input type=number step=any class="form-control" id="price" name="price" placeholder="Change product price, e.g. 3.50">
+        </div>
+
+      
+      <!-- Add product button -->
+      <div class="text-center d-flex justify-content-center">
+         <div class="py-2">
+            <button id="delete" type="submit" class="btn btn-danger">Delete</button>
+            <button id="update" type="submit" class="btn btn-primary">Update</button>
+          </div>
+      </div>
+
+  </form>
 </div>
 </body>
 </html>
