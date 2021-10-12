@@ -38,20 +38,29 @@ function deleteRecord() {
   console.log("id = " + productId);
   console.log("name = " + productName);
 
-  // When product is deleted show a message to the user
-  document.getElementById("pageMessage").innerHTML = `
+  // Check if a product has been selected
+  if (productId != "Select a product to modify") {
+    // When product is deleted show a message to the user
+    document.getElementById("pageMessage").innerHTML = `
         <div id="currentProduct" class="alert alert-success" role="alert">
         Successfully <strong>deleted</strong> product "${productName}".
         </div>
         `;
 
-  fetch("http://localhost:3000/products/delete", {
-    method: "DELETE",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      _id: productId,
-    }),
-  }).then((res) => console.log(res.json));
+    fetch("http://localhost:3000/products/delete", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        _id: productId,
+      }),
+    }).then((res) => console.log(res.json));
+  } else {
+    document.getElementById("pageMessage").innerHTML = `
+  <div id="currentProduct" class="alert alert-secondary" role="alert">
+  Please select a product to modify.
+  </div>
+  `;
+  }
 
   //clear form
   clearAll();
@@ -68,23 +77,32 @@ function updateRecord() {
   console.log("id = " + productId);
   console.log("name = " + productName);
 
-  // When product is updated show a message to the user
-  document.getElementById("pageMessage").innerHTML = `
-      <div id="currentProduct" class="alert alert-success" role="alert">
-      Successfully <strong>updated</strong> product "${productName}".
-      </div>
-      `;
+  // Check if a product has been selected
+  if (productId != "Select a product to modify") {
+    // When product is updated show a message to the user
+    document.getElementById("pageMessage").innerHTML = `
+        <div id="currentProduct" class="alert alert-success" role="alert">
+        Successfully <strong>updated</strong> product "${productName}".
+        </div>
+        `;
 
-  fetch("http://localhost:3000/products/edit", {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      _id: productId,
-      name: document.getElementById("name").value,
-      description: document.getElementById("desc").value,
-      price: parseFloat(document.getElementById("price").value),
-    }),
-  }).then((res) => console.log(res.json));
+    fetch("http://localhost:3000/products/edit", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        _id: productId,
+        name: document.getElementById("name").value,
+        description: document.getElementById("desc").value,
+        price: parseFloat(document.getElementById("price").value),
+      }),
+    }).then((res) => console.log(res.json));
+  } else {
+    document.getElementById("pageMessage").innerHTML = `
+    <div id="currentProduct" class="alert alert-secondary" role="alert">
+    Please select a product to modify.
+    </div>
+    `;
+  }
 
   //clear form
   clearAll();
