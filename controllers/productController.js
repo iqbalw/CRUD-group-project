@@ -62,7 +62,6 @@ module.exports.getProducts = async (req, res) => {
  * @param {Object} res The Response Object
  */
 module.exports.getProduct = async (req, res) => {
-  console.log(req.params)
   try {
     const products = await Product.find({ _id: req.params.id });
     res.send(products);
@@ -96,7 +95,9 @@ module.exports.addProduct = async (req, res) => {
 module.exports.editProduct = async (req, res) => {
   console.log(req.body);
   try {
-    const query = { name: req.body.name };
+    const query = { 
+      _id: req.body._id
+     };
     const product = await Product.findOneAndUpdate(query, req.body, {
       upsert: true,
     });
@@ -108,6 +109,8 @@ module.exports.editProduct = async (req, res) => {
 };
 
 module.exports.deleteProduct = async (req, res) => {
+  console.log("DELETE request");
+  console.log(req.params);
   try {
     const product = await Product.findOneAndDelete({ _id: req.body._id });
     console.log(product);
