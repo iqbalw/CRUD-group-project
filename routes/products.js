@@ -3,9 +3,25 @@ const controller = require("../controllers/productController");
 const { productValidation } = require('../controllers/middleware/dataValidation.js');
 const { isLoggedIn } = require("../controllers/middleware/verifyUser");
 // middleware to parse multipart/form-data 
-// package used for image upload
+// package used for image uploads
 const multer = require('multer'); 
-const upload = multer({dest: 'public/images/'});
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => cb(null, 'public/images'),
+    filename: (req, file, cb) => cb(null, new Date().toISOString() + file.originalname) 
+});
+
+const fileFilter = (req, file, cb) => {
+    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+        cb(null, true); // accept file
+    } else {
+        cb(null, false); // reject file
+    }
+}
+
+const limits = { fileSize: 1024 * 1024 * 9 } // 9MB 
+
+const upload = multer({storage, limits, fileFilter});
 
 // @desc    Render Login Page
 // @route   GET /products/add
@@ -24,10 +40,5 @@ router.post('/add', upload.single('productImage'), productValidation, controller
 router.put('/edit', isLoggedIn, controller.editProduct);
 
 router.delete('/delete', controller.deleteProduct);
-
-// Protected route example/test
-// router.get("/", isLoggedIn, (req, res) => {
-//   res.send(`${req.user.name} is Logged in`);
-// });
 
 module.exports = router;

@@ -76,13 +76,15 @@ module.exports.getProduct = async (req, res) => {
  * @param {Object} res The Response Object
  */
 module.exports.addProduct = async (req, res) => {
-  console.log(req.file);
+  // assign product image path
+  const path = req.file ? req.file.path.replace('public', '') : null;
 
   // Create New Product
   const product = new Product({
     name: req.body.name,
     description: req.body.desc,
     price: req.body.price,
+    productImage: path
   });
 
   // Save Product in Database
