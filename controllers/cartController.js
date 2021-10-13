@@ -10,6 +10,13 @@ const User = require('../models/User');
  */
 module.exports.getCartPage = async (req, res) => {
     const user = await User.findById(req.user._id).populate('cart.productID');
+    
+    // Remove any products deleted by admin from users cart
+    const cart = user.cart.filter(p => p.productID !== null);
+    user.cart = cart;
+    await user.save();
+
+    // Render updated page
     res.render('cart', {
         user: user,
         cart: user.cart,
