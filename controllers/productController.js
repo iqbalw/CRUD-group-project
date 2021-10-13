@@ -76,6 +76,8 @@ module.exports.getProduct = async (req, res) => {
  * @param {Object} res The Response Object
  */
 module.exports.addProduct = async (req, res) => {
+  console.log(req.file);
+
   // Create New Product
   const product = new Product({
     name: req.body.name,

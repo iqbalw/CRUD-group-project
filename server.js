@@ -51,6 +51,7 @@ mongoose.connect(process.env.DB_CONNECT,
 
 // 404, If request not found
 app.use((req, res) => {
+    console.log(req.originalUrl);
     res.status(404).send('Sorry, Request Not found.');
 });
 

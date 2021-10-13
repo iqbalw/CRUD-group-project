@@ -2,6 +2,10 @@ const router = require("express").Router();
 const controller = require("../controllers/productController");
 const { productValidation } = require('../controllers/middleware/dataValidation.js');
 const { isLoggedIn } = require("../controllers/middleware/verifyUser");
+// middleware to parse multipart/form-data 
+// package used for image upload
+const multer = require('multer'); 
+const upload = multer({dest: 'public/images/'});
 
 // @desc    Render Login Page
 // @route   GET /products/add
@@ -15,7 +19,7 @@ router.get("/", isLoggedIn, controller.getProducts);
 
 router.get("/:id", isLoggedIn, controller.getProduct);
 
-router.post('/add', productValidation, controller.addProduct);
+router.post('/add', upload.single('productImage'), productValidation, controller.addProduct);
 
 router.put('/edit', isLoggedIn, controller.editProduct);
 
