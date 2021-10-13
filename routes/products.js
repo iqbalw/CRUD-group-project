@@ -35,9 +35,9 @@ router.get("/", isLoggedIn, controller.getProducts);
 
 router.get("/:id", isLoggedIn, controller.getProduct);
 
-router.post('/add', upload.single('productImage'), productValidation, controller.addProduct);
+router.post('/add', isLoggedIn, upload.single('productImage'), productValidation, controller.addProduct);
 
-router.put('/edit', isLoggedIn, controller.editProduct);
+router.put('/edit', isLoggedIn, upload.single('productImage'), controller.editProduct);
 
 router.delete('/delete', controller.deleteProduct);
 
