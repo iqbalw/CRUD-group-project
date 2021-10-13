@@ -16,18 +16,21 @@
                 <th scope="col">Action</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="product-info-table">
 
             <% for (let i = 0; i < cart.length; i++) { %>
-                <tr>
-                    <th scope="row" id=<%= cart[i].productID._id %>><%= i + 1 %></th>
+                <tr id=<%= cart[i].productID._id %>>
+                    <th scope="row" class="aaa" id=<%= cart[i].productID._id %>><%= i + 1 %></th>
                     <th scope="row"><img class="" src="http://via.placeholder.com/300x180" alt="Card image cap"></th>
-                    <td><%= cart[i].productID.name %></td>
+                    <td id ="name"><%= cart[i].productID.name %></td>
                     <td><%= cart[i].productID.description %></td>
-                    <td><%= '$' + cart[i].productID.price %></td>
-                    <td><%= cart[i].quantity %></td>
-                    <td><%= '$' + cart[i].productID.price * cart[i].quantity %></td>
-                    <td><i class="fas fa-plus mr-2"></i><i class="fas fa-minus mr-2"></i><i class="fas fa-trash"></i></td>
+                    <td id="price"><%= '$' + cart[i].productID.price %></td>
+                    <td id = quantity><%= cart[i].quantity %></td>
+                    <td id ="total"><%= '$' + cart[i].productID.price * cart[i].quantity %></td>
+                    <td id="add"><i class="fas fa-plus mr-2"></i></td>
+                    <td><i class="fas fa-trash"></i></td>
+                    <td><i class="fas fa-minus mr-2"></i></td>
+                  
                 </tr>
             <% } %>
 
@@ -35,7 +38,7 @@
     </table>
 
     <div class="d-flex justify-content-end">
-        <h5>Total: <span class="price text-success">$89</span></h5>
+        <h5>Total: <span class="price text-success" id ="total-price">$89</span></h5>
     </div>
 
     <div class="d-flex justify-content-end">
