@@ -86,7 +86,7 @@ module.exports.addProduct = async (req, res) => {
   // Save Product in Database
   try {
     const savedProduct = await product.save();
-    res.send(savedProduct);
+    res.redirect('/');
   } catch (err) {
     res.status(400).send(err);
   }
