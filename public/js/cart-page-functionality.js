@@ -1,5 +1,5 @@
 /**
- * Array of row objects which I use to handle events and querying 
+ * Array of row objects which I use to handle events and querying
  */
 let tableInfo = [];
 /**
@@ -9,11 +9,11 @@ var addButtons = document.getElementsByClassName("fas fa-plus mr-2");
 /**
  * Buttons used for trash event listeners - removes items
  */
-var trashButtons = document.getElementsByClassName("fas fa-trash"); 
+var trashButtons = document.getElementsByClassName("fas fa-trash");
 /**
  * Buttons used for removing one item (in terms of quantity)
  */
-var minusButtons = document.getElementsByClassName("fas fa-minus mr-2"); 
+var minusButtons = document.getElementsByClassName("fas fa-minus mr-2");
 /**
  * Variable used for maintaining total price.
  */
@@ -66,7 +66,7 @@ function setIncreasedValues(i) {
   var trs = document.querySelectorAll("tbody tr");
   //getting the price removing the $ from tableInfo array
   let price = tableInfo[i].price.substring(1, tableInfo[i].price.length);
-  //getting the quantity from the table 
+  //getting the quantity from the table
   let quantity = Number(trs[i].cells.item(5).innerHTML);
   //getting the old price
   let oldPrice = price * quantity;
@@ -75,7 +75,7 @@ function setIncreasedValues(i) {
   //incrementing the quantity
   tableInfo[i].quantity++;
   quantity += 1;
-  //calculating the price and adding it 
+  //calculating the price and adding it
   let newPrice = price * quantity;
   totalPrice += newPrice;
   //adding the new values to the table and setting the price
@@ -85,14 +85,14 @@ function setIncreasedValues(i) {
 }
 
 /**
- * If we are removing a value (hitting the trash button) removes the value 
+ * If we are removing a value (hitting the trash button) removes the value
  *
  * @param {*} i - ith element to remove
  */
 function removeValue(i) {
-  //getting the table 
+  //getting the table
   var trs = document.querySelectorAll("tbody tr");
-  //getting the price and quanity for removal and updating 
+  //getting the price and quanity for removal and updating
   let price = tableInfo[i].price.substring(1, tableInfo[i].price.length);
   let quantity = Number(trs[i].cells.item(5).innerHTML);
   let oldPrice = price * quantity;
@@ -101,7 +101,6 @@ function removeValue(i) {
   document.getElementsByTagName("tr")[i + 1].remove();
   //set the total price
   setTotalPrice();
-
 }
 
 /**
@@ -122,10 +121,10 @@ function setDecreasedValue(i) {
   tableInfo[i].quantity--;
   quantity -= 1;
   //If we have 0 of an item, we should delete it.
-  if(quantity <=0){
+  if (quantity <= 0) {
     deleteCart(tableInfo[i]);
     removeValue(i);
-    return
+    return;
   }
   //getting the new price
   let newPrice = price * quantity;
@@ -143,11 +142,9 @@ function setTotalPrice() {
   document.querySelector("#total-price").innerHTML = "$" + totalPrice;
 }
 
-
-
 /**
  * REST API method which I use to add a product to the cart and update the DB
- * 
+ *
  * @param {*} tableRow - the row we are working with
  */
 async function incrementCart(tableRow) {
@@ -176,11 +173,10 @@ async function incrementCart(tableRow) {
   }
 }
 
-
 /**
  * REST API method for deleting a row from the table and updating DB
- * 
- * @param {} tableRow 
+ *
+ * @param {} tableRow
  */
 async function deleteCart(tableRow) {
   //creating data as a object to Stringify for parsing
@@ -202,7 +198,7 @@ async function deleteCart(tableRow) {
     });
 
     console.log("Completed!", response);
-    window.location.href=window.location.href
+    window.location.href = window.location.href;
   } catch (err) {
     //if it is incomplete print the error out for debugging
     console.error(`Error: ${err}`);
@@ -210,13 +206,11 @@ async function deleteCart(tableRow) {
 }
 /**
  * Method for decrementing the quantity by one.
- * 
+ *
  * @param {} tableRow  - the row we are updating
  */
 async function minusOne(tableRow) {
-
   let id = tableRow.id;
-  console.log(id);
   let data = {
     productID: id,
   };
@@ -238,11 +232,10 @@ async function minusOne(tableRow) {
   }
 }
 
-
 /**
  * Setting up the event listeners for the table
  */
- function setupEventListenrs() {
+function setupEventListenrs() {
   for (let i = 0; i < addButtons.length; i++) {
     //adds a click event listener with the function, and the data it needs
     addButtons[i].addEventListener(
