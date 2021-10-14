@@ -107,4 +107,6 @@ module.exports.removeAllFromCart = async (req, res) => {
     
     await user.save();
     res.redirect(303,'/cart');
+    // res.json(user.cart);
+
 }
