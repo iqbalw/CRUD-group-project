@@ -1,81 +1,80 @@
 let productTable = document.getElementsByTagName("tbody");
 let totalPrices = [];
 let shoeNameToIDMap = new Map();
+let tableInfo = []
+var cards = document.getElementsByClassName("fas fa-plus mr-2"); //returns a nodelist
+let totalPrice = 0
 
 
-function setupMappingsForShoeToID() {
+function setup() {
   tr = [];
   var trs = document.querySelectorAll("tbody tr"),
   j;
   for (j = 0; j < trs.length; j++) {
+      let object = {
+        id: trs[j].id,
+        name: trs[j].cells.item(2).innerHTML,
+        price: trs[j].cells.item(4).innerHTML,
+        quantity: trs[j].cells.item(5).innerHTML
+      }
+      tableInfo.push(object)
     shoeNameToIDMap.set(trs[j].cells.item(2).innerHTML, trs[j].id);
   }
-  console.log(shoeNameToIDMap);
 }
 
-setupMappingsForShoeToID();
-
-function calculatePrices() {
-  let shoePrice;
-  let quantity;
-  let quantityNum = 0;
-  let name;
-  var tds = document.querySelectorAll("tbody td"),
-  i;
-  for (i = 0; i < tds.length; ++i) {
-    if (tds[i].id === "name") {
-      console.log();
-      name = tds[i].innerHTML;
-    }
-    if (tds[i].id === "price") {
-      shoePrice = Number(tds[i].innerHTML.substring(1, tds[i].length));
-    }
-    if (tds[i].id === "quantity") {
-      quantityNum = i;
-      quantity = Number(tds[i].innerHTML);
-    }
-    if (tds[i].id === "total") {
-      let totalPrice = quantity * shoePrice;
-      totalPrices.push(totalPrice);
-      tds[i].innerHTML = "$" + totalPrice;
-    }
-    if ((tds[i].id = "add")) {
-      tds[i].addEventListener("click", function () {
-        console.log(quantityNum);
-        let newQuantity = Number(tds[quantityNum].innerHTML) + 1;  
-        console.log(newQuantity);
-        tds[quantityNum].innerHTML = newQuantity
-        incrementCart(name);
-        // calculatePrices();
-        // setTotalPrice();
-      });
-    }
+function calculatePriceAndTotal() {
+    tr = [];
+    var trs = document.querySelectorAll("tbody tr"),
+    j;
+    for (j = 0; j < trs.length; j++) {
+      
+        console.log(tableInfo[j].price * tableInfo[j].quantity);
+        let price = tableInfo[j].price.substring(1,tableInfo[j].price.length);
+        console.log(tableInfo[j].quantity);
+        let productTotal = price* tableInfo[j].quantity
+        totalPrice +=productTotal
+        trs[j].cells.item(6).innerHTML = "$" +productTotal
+        
   }
 }
+
+function incrementQuantity(i) {
+    var trs = document.querySelectorAll("tbody tr")
+    let price = tableInfo[i].price.substring(1,tableInfo[i].price.length);
+    let quantity = Number(trs[i].cells.item(5).innerHTML)
+    let oldPrice = price*quantity
+    totalPrice = totalPrice - oldPrice
+    tableInfo[i].quantity++;
+    quantity+= 1
+    let newPrice = price*quantity
+    totalPrice+=newPrice
+    trs[i].cells.item(6).innerHTML = "$" +  (newPrice)
+    trs[i].cells.item(5).innerHTML =  quantity
+    setTotalPrice()
+    
+}
+
 function setTotalPrice() {
-  let totalPrice = 0;
-  for (let i = 0; i < totalPrices.length; i++) {
-    totalPrice += totalPrices[i];
-  }
+
   // document.querySelector("#")
   document.querySelector("#total-price").innerHTML = "$" + totalPrice;
 }
 
 //processing table values and setting price
-calculatePrices();
+setup();
+calculatePriceAndTotal()
+
 setTotalPrice();
+setupEventListenrs()
 
 /**
  *
  * @param {*} name
  */
-async function incrementCart(name) {
-  console.log("AAAAAA");
+async function incrementCart(tableRow) {
   //creating data as a object to Stringify for parsing
-  console.log(name);
-  let id = shoeNameToIDMap.get(name);
+  let id = tableRow.id;
 
-  console.log(id);
   let data = {
     productID: id,
     onCartPage: true,
@@ -99,3 +98,20 @@ async function incrementCart(name) {
     console.error(`Error: ${err}`);
   }
 }
+
+
+function setupEventListenrs(){
+    for (let i = 0; i < cards.length; i++) {
+        //adds a click event listener with the function, and the data it needs
+        cards[i].addEventListener(
+          "click",
+          function () {
+            incrementCart(tableInfo[i])
+            incrementQuantity(i)
+            // addToCart(cards[i]);
+          },
+          false
+        );
+      }
+    }
+
