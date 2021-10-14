@@ -121,9 +121,9 @@ function fillForm() {
   console.log("Filling form with selection test");
 
   // Remove img element if it exists
-  if (document.querySelector("img")) { 
+  if (document.querySelector("#displayImage")) { 
     console.log('Found Img'); 
-    document.querySelector('img').remove();
+    document.querySelector('#displayImage').remove();
   }
 
   //Get product id from dropdown
