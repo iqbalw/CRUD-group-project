@@ -49,7 +49,8 @@ module.exports.getProducts = async (req, res) => {
   try {
     const products = await Product.find();
     res.render("index", {
-      products: products.name,
+      pageTitle: "Home",
+      products: products,
       user: req.user,
     });
   } catch (err) {
@@ -97,6 +98,14 @@ module.exports.addProduct = async (req, res) => {
   }
 };
 
+/**
+ * Updates a product with the given values. If a 
+ * image file is supplied will delete the old file 
+ * and replace the image path on the product model 
+ * with the path of the new image.
+ * @param {Object} req The Request Object
+ * @param {Object} res The Response Object
+ */
 module.exports.editProduct = async (req, res) => {
   
   try {
@@ -131,6 +140,12 @@ module.exports.editProduct = async (req, res) => {
   }
 };
 
+/**
+ * Delete a product from the database and its image
+ * locally if it exists.
+ * @param {Object} req The Request Object
+ * @param {Object} res The Response Object 
+ */
 module.exports.deleteProduct = async (req, res) => {
   try {
     const product = await Product.findOneAndDelete({ _id: req.body._id });

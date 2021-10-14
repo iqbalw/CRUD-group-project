@@ -12,7 +12,7 @@ function clearAll() {
   document.getElementById("name").value = "";
   document.getElementById("price").value = "";
   document.getElementById("desc").value = "";
-  if (document.querySelector("img")) { document.querySelector("img").remove(); }
+  if (document.querySelector("#displayImage")) { document.querySelector("#displayImage").remove(); }
 
 }
 
@@ -153,6 +153,7 @@ function fillForm() {
           if (item.productImage) {
             const img = document.createElement("img");
             img.setAttribute("src", item.productImage);
+            img.setAttribute("id", "displayImage");
             img.setAttribute("width", "20%");
             img.setAttribute("height", "20%");
 

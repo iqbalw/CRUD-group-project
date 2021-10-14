@@ -1,16 +1,16 @@
 const router = require("express").Router();
 const controller = require("../controllers/productController");
 const { productValidation } = require('../controllers/middleware/dataValidation.js');
-const { isLoggedIn } = require("../controllers/middleware/verifyUser");
-// middleware to parse multipart/form-data 
+const { isLoggedIn, isAdmin } = require("../controllers/middleware/verifyUser");
+ 
 // package used for image uploads
 const multer = require('multer'); 
 
+// Upload specifications
 const storage = multer.diskStorage({
     destination: (req, file, cb) => cb(null, 'public/images'),
     filename: (req, file, cb) => cb(null, new Date().toISOString() + file.originalname) 
 });
-
 const fileFilter = (req, file, cb) => {
     if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
         cb(null, true); // accept file
@@ -18,27 +18,33 @@ const fileFilter = (req, file, cb) => {
         cb(null, false); // reject file
     }
 }
-
 const limits = { fileSize: 1024 * 1024 * 9 } // 9MB 
 
+// middleware to parse multipart/form-data
 const upload = multer({storage, limits, fileFilter});
 
-// @desc    Render Login Page
+// @desc    Render Add product page
 // @route   GET /products/add
-router.get("/add", isLoggedIn, controller.getProductPage);
+router.get("/add", isLoggedIn, isAdmin, controller.getProductPage);
 
 // @desc    Render Edit Products Page
 // @route   GET /products/edit
-router.get("/edit", isLoggedIn, controller.getEditPage);
+router.get("/edit", isLoggedIn, isAdmin, controller.getEditPage);
 
-router.get("/", isLoggedIn, controller.getProducts);
-
+// @desc    Get product by ID
+// @route   GET /products/:id
 router.get("/:id", isLoggedIn, controller.getProduct);
 
-router.post('/add', isLoggedIn, upload.single('productImage'), productValidation, controller.addProduct);
+// @desc    Add a new product to the database
+// @route   POST /products/add
+router.post('/add', isLoggedIn, isAdmin, upload.single('productImage'), productValidation, controller.addProduct);
 
-router.put('/edit', isLoggedIn, upload.single('productImage'), controller.editProduct);
+// @desc    Update a product currently in the database
+// @route   PUT /products/edit
+router.put('/edit', isLoggedIn, isAdmin, upload.single('productImage'), controller.editProduct);
 
-router.delete('/delete', controller.deleteProduct);
+// @desc    Remove a product currently in the database
+// @route   DELETE /products/delete
+router.delete('/delete', isAdmin, controller.deleteProduct);
 
 module.exports = router;

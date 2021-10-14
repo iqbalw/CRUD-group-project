@@ -5,13 +5,15 @@
         </a>
         <ul class="nav nav-pills">
             <% if (user) { %>
-                <li class="nav-item">
-                    <a class="nav-link btn-outline-light" href="/products/add">Add Product</a>
-                </li>
+                <% if (user.isAdmin) { %>
+                    <li class="nav-item">
+                        <a class="nav-link btn-outline-light" href="/products/add">Add Product</a>
+                    </li>
 
-                <li class="nav-item">
-                    <a class="nav-link btn-outline-light" href="/products/edit">Edit Products</a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn-outline-light" href="/products/edit">Edit Products</a>
+                    </li>
+                <% } %>
 
                 <li class="nav-item border border-right-10 border-dark">
                     <!-- Change this -->
