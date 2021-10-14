@@ -1,8 +1,22 @@
+/**
+ * Array of row objects which I use to handle events and querying 
+ */
 let tableInfo = [];
-var addButtons = document.getElementsByClassName("fas fa-plus mr-2"); //returns a nodelist
-var trashButtons = document.getElementsByClassName("fas fa-trash"); //returns a nodelist
-var minusButtons = document.getElementsByClassName("fas fa-minus mr-2"); //returns a nodelist
-
+/**
+ * Buttons used for add event listeners - add buttons
+ */
+var addButtons = document.getElementsByClassName("fas fa-plus mr-2");
+/**
+ * Buttons used for trash event listeners - removes items
+ */
+var trashButtons = document.getElementsByClassName("fas fa-trash"); 
+/**
+ * Buttons used for removing one item (in terms of quantity)
+ */
+var minusButtons = document.getElementsByClassName("fas fa-minus mr-2"); 
+/**
+ * Variable used for maintaining total price.
+ */
 let totalPrice = 0;
 
 /**
@@ -33,7 +47,6 @@ function setup() {
  */
 function setOriginalTotals() {
   var trs = document.querySelectorAll("tbody tr");
-
   for (let j = 0; j < trs.length; j++) {
     let price = tableInfo[j].price.substring(1, tableInfo[j].price.length);
     let productTotal = price * tableInfo[j].quantity;
@@ -43,85 +56,103 @@ function setOriginalTotals() {
 }
 
 /**
- * If we are increasing the number of a shoe call this method
+ * If we are increasing the number of a shoes call this method
  * to update the DOM and objects as needed
  *
- * @param {*} i - element to add
+ * @param {*} i - the ith elemment to add
  */
 function setIncreasedValues(i) {
-  console.log(tableInfo);
+  //getting the table rows
   var trs = document.querySelectorAll("tbody tr");
+  //getting the price removing the $ from tableInfo array
   let price = tableInfo[i].price.substring(1, tableInfo[i].price.length);
+  //getting the quantity from the table 
   let quantity = Number(trs[i].cells.item(5).innerHTML);
+  //getting the old price
   let oldPrice = price * quantity;
+  //removing the old price
   totalPrice = totalPrice - oldPrice;
+  //incrementing the quantity
   tableInfo[i].quantity++;
   quantity += 1;
+  //calculating the price and adding it 
   let newPrice = price * quantity;
   totalPrice += newPrice;
+  //adding the new values to the table and setting the price
   trs[i].cells.item(6).innerHTML = "$" + newPrice;
   trs[i].cells.item(5).innerHTML = quantity;
   setTotalPrice();
 }
 
 /**
- * If we are increasing the number of a shoe call this method
- * to update the DOM and objects as needed
+ * If we are removing a value (hitting the trash button) removes the value 
  *
- * @param {*} i - element to add
+ * @param {*} i - ith element to remove
  */
 function removeValue(i) {
+  //getting the table 
   var trs = document.querySelectorAll("tbody tr");
+  //getting the price and quanity for removal and updating 
   let price = tableInfo[i].price.substring(1, tableInfo[i].price.length);
   let quantity = Number(trs[i].cells.item(5).innerHTML);
   let oldPrice = price * quantity;
   totalPrice = totalPrice - oldPrice;
+  //removing it from the table
   document.getElementsByTagName("tr")[i + 1].remove();
+  //set the total price
   setTotalPrice();
 
 }
 
 /**
- * If we are increasing the number of a shoe call this method
+ * If we are decrementing the number of a shoes call this method
  * to update the DOM and objects as needed
  *
- * @param {*} i - element to add
+ * @param {*} i - ith element to subtract
  */
 function setDecreasedValue(i) {
+  //getting the table row, quantity and price
   var trs = document.querySelectorAll("tbody tr");
   let price = tableInfo[i].price.substring(1, tableInfo[i].price.length);
-
   let quantity = Number(trs[i].cells.item(5).innerHTML);
+  //getting the old price and updating the total price
   let oldPrice = price * quantity;
   totalPrice = totalPrice - oldPrice;
+  //updating values
   tableInfo[i].quantity--;
   quantity -= 1;
+  //If we have 0 of an item, we should delete it.
+  if(quantity <=0){
+    deleteCart(tableInfo[i]);
+    removeValue(i);
+    return
+  }
+  //getting the new price
   let newPrice = price * quantity;
   totalPrice += newPrice;
+  //updating the table
   trs[i].cells.item(6).innerHTML = "$" + newPrice;
   trs[i].cells.item(5).innerHTML = quantity;
   setTotalPrice();
 }
 
+/**
+ * Gets the total price and setting it in the dom
+ */
 function setTotalPrice() {
   document.querySelector("#total-price").innerHTML = "$" + totalPrice;
 }
 
-//processing table values and setting price
-setup();
-setOriginalTotals();
 
-setTotalPrice();
-setupEventListenrs();
 
 /**
- *
- * @param {*} name
+ * REST API method which I use to add a product to the cart and update the DB
+ * 
+ * @param {*} tableRow - the row we are working with
  */
 async function incrementCart(tableRow) {
   //creating data as a object to Stringify for parsing
   let id = tableRow.id;
-  // console.log(id);
   let data = {
     productID: id,
     onCartPage: true,
@@ -137,8 +168,7 @@ async function incrementCart(tableRow) {
       },
       body: JSON.stringify(data),
     });
-    //if it is completed print this out for debugging
-    //   alert(`${shoeName} was added to cart!`)
+
     console.log("Completed!", response);
   } catch (err) {
     //if it is incomplete print the error out for debugging
@@ -146,16 +176,73 @@ async function incrementCart(tableRow) {
   }
 }
 
-function setupEventListenrs() {
-  // var new_element_1 = addButtons.cloneNode(true);
-  // var new_element_2 = trashButtons.cloneNode(true);
-  // var new_element_3 = minusButtons.cloneNode(true);
 
-  // addButtons.parentNode.replaceChild(new_element_1, addButtons);
-  // trashButtons.parentNode.replaceChild(new_element_2, trashButtons);
-  // minusButtons.parentNode.replaceChild(new_element_3, minusButtons);
+/**
+ * REST API method for deleting a row from the table and updating DB
+ * 
+ * @param {} tableRow 
+ */
+async function deleteCart(tableRow) {
+  //creating data as a object to Stringify for parsing
+  let id = tableRow.id;
+  let data = {
+    productID: id,
+  };
+  //trying to send the DELETE request with the required data
+  try {
+    //async request
+    const response = await fetch("/cart/remove/all", {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      redirect: "follow",
+      body: JSON.stringify(data),
+    });
+
+    console.log("Completed!", response);
+    window.location.href=window.location.href
+  } catch (err) {
+    //if it is incomplete print the error out for debugging
+    console.error(`Error: ${err}`);
+  }
+}
+/**
+ * Method for decrementing the quantity by one.
+ * 
+ * @param {} tableRow  - the row we are updating
+ */
+async function minusOne(tableRow) {
+
+  let id = tableRow.id;
+  console.log(id);
+  let data = {
+    productID: id,
+  };
+  try {
+    //async request
+    const response = await fetch("/cart/remove", {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      redirect: "follow",
+      body: JSON.stringify(data),
+    });
+    console.log("Completed!", response);
+  } catch (err) {
+    //if it is incomplete print the error out for debugging
+    console.error(`Error: ${err}`);
+  }
+}
 
 
+/**
+ * Setting up the event listeners for the table
+ */
+ function setupEventListenrs() {
   for (let i = 0; i < addButtons.length; i++) {
     //adds a click event listener with the function, and the data it needs
     addButtons[i].addEventListener(
@@ -186,67 +273,14 @@ function setupEventListenrs() {
       function () {
         minusOne(tableInfo[i]);
         setDecreasedValue(i);
-        // incrementQuantity(i)
       },
       false
     );
   }
 }
 
-async function deleteCart(tableRow) {
-  //creating data as a object to Stringify for parsing
-  let id = tableRow.id;
-  // console.log(id);
-  let data = {
-    productID: id,
-  };
-  //trying to send the post request with the required data
-  try {
-    //async request
-    const response = await fetch("/cart/remove/all", {
-      method: "DELETE",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      redirect: "follow",
-      body: JSON.stringify(data),
-    });
-    //if it is completed print this out for debugging
-    //   alert(`${shoeName} was added to cart!`)
-    console.log("Completed!", response);
-    window.location.href=window.location.href
-  } catch (err) {
-    //if it is incomplete print the error out for debugging
-    console.error(`Error: ${err}`);
-  }
-}
-
-async function minusOne(tableRow) {
-  //creating data as a object to Stringify for parsing
-  // console.log("THIS IS CALLED");
-  let id = tableRow.id;
-  console.log(id);
-  let data = {
-    productID: id,
-  };
-  //trying to send the post request with the required data
-  try {
-    //async request
-    const response = await fetch("/cart/remove", {
-      method: "DELETE",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      redirect: "follow",
-      body: JSON.stringify(data),
-    });
-    //if it is completed print this out for debugging
-    //   alert(`${shoeName} was added to cart!`)
-    console.log("Completed!", response);
-  } catch (err) {
-    //if it is incomplete print the error out for debugging
-    console.error(`Error: ${err}`);
-  }
-}
+//methods I call originally setup the table, the price, totals for the items and event listeners
+setup();
+setOriginalTotals();
+setTotalPrice();
+setupEventListenrs();
