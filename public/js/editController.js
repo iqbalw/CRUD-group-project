@@ -132,7 +132,7 @@ function fillForm() {
 
   if (productId != "Select a product to modify") {
     //retrieve the product item first (GET request)
-    fetch("http://localhost:3000/products/" + productId)
+    fetch("/products/" + productId)
       .then((res) => res.json())
       .then((data) => {
         //populate form
