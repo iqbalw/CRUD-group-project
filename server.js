@@ -8,6 +8,7 @@ const routes = require('./startup/initRoutes');
 const path = require('path');
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo');
+const database = require('./startup/database');
 
 const app = express();
 
@@ -43,12 +44,6 @@ app.use(passport.session());
 // Init Routes
 routes(app);
 
-//Connecting to the database
-mongoose.connect(process.env.DB_CONNECT, 
-    {useNewURLParser: true},
-   ()=> console.log("Database connection was successful")
-);
-
 // 404, If request not found
 app.use((req, res) => {
     console.log(req.originalUrl);
@@ -57,4 +52,8 @@ app.use((req, res) => {
 
 const port = process.env.PORT || 3000;
 
-app.listen(port, () => console.log(`Server Listening at Port: ${port}`));
+database.connect().then(() => {
+    app.listen(port, () => console.log(`Server Listening at Port: ${port}`));
+})
+
+module.exports = app;
