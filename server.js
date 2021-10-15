@@ -46,8 +46,8 @@ routes(app);
 
 // 404, If request not found
 app.use((req, res) => {
-    console.log(req.originalUrl);
-    res.status(404).send('Sorry, Request Not found.');
+    //console.log(req.originalUrl);
+    res.status(404).json('Sorry, Request Not found.');
 });
 
 const port = process.env.PORT || 3000;
