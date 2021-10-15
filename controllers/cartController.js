@@ -99,6 +99,7 @@ module.exports.removeFromCart = async (req, res) => {
  */
 module.exports.removeAllFromCart = async (req, res) => {
     // Check is given product exists
+    console.log(req);
     const product = await Product.findById(req.body.productID);
     if (!product) { res.status(400).send('Product Does not exist'); }
 
@@ -110,7 +111,9 @@ module.exports.removeAllFromCart = async (req, res) => {
     if (index < 0) { return res.status(400).send('Product not in cart'); }
 
     user.cart.splice(index, 1);
-
+    
     await user.save();
-    res.redirect('/cart');
+    res.redirect(303,'/cart');
+    // res.json(user.cart);
+
 }

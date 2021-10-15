@@ -2,22 +2,32 @@
 var cards = document.getElementsByClassName("col-lg-3 text-center py-5"); //returns a nodelist
 var buttons = document.getElementsByTagName("button"); //returns a nodelist
 
+console.log(buttons.length);
 /**
  * Adding event listeners to all of the buttons, so that on a click event
  * each indivdual button is able to add their item to the cart
  *
  * No hardcoding and will be able to handle reloading.
  */
-for (let i = 0; i < buttons.length; i++) {
-  //adds a click event listener with the function, and the data it needs
-  buttons[i].addEventListener(
-    "click",
-    function () {
-      addToCart(cards[i]);
-    },
-    false
-  );
+function addEventListeners () {
+  console.log("CALLED");
+  console.log(buttons.length);
+  for (let i = 0; i < buttons.length; i++) {
+    //adds a click event listener with the function, and the data it needs
+    console.log("WE HERE");
+    buttons[i].addEventListener(
+      "click",
+      function () {
+        console.log("CLICKED");
+        addToCart(cards[i]);
+      },
+      false
+    );
+  }
 }
+
+addEventListeners()
+
 
 /**
  * Add to cart method which creates a POST request that is handled
