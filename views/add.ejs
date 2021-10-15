@@ -4,13 +4,18 @@
     <h1> Add Product </h1>
 
     <!-- Form -->
-    <form action="./add" method="POST">
+    <form action="./add" method="POST" enctype="multipart/form-data">
 
         <!-- Product Name -->
         <div class="form-group">
           <label for="productName">Product name</label>
           <input type="text" class="form-control" id="name" name="name" placeholder="Enter product name">
+        </div>
 
+        <!-- Product Image -->
+        <div class="form-group">
+          <label for="customFile">Choose Image (Optional)</label>
+          <input type="file" accept="image/jpeg, image/png" class="form-control-file" id="productImage" name="productImage">
         </div>
 
         <!-- Product Description -->
@@ -35,8 +40,9 @@
 
     </form>
 
-
-</div>
+    
+  </div>
+  <%- include('partials/footer'); %>
 
 </body>
 </html>

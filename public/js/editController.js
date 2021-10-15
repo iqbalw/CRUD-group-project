@@ -12,6 +12,8 @@ function clearAll() {
   document.getElementById("name").value = "";
   document.getElementById("price").value = "";
   document.getElementById("desc").value = "";
+  if (document.querySelector("#displayImage")) { document.querySelector("#displayImage").remove(); }
+
 }
 
 /**
@@ -47,7 +49,7 @@ function deleteRecord() {
         </div>
         `;
 
-    fetch(window.location.origin + "/products/delete", {
+    fetch("/products/delete", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -86,15 +88,19 @@ function updateRecord() {
         </div>
         `;
 
-    fetch(window.location.origin + "/products/edit", {
+    // Construct form data
+    const fd = new FormData();
+    fd.append("_id", productId);
+    fd.append("name", document.getElementById("name").value);
+    fd.append("description", document.getElementById("desc").value);
+    fd.append("price", parseFloat(document.getElementById("price").value));
+    // new image file supplied send for update
+    const input = document.querySelector('#productImage');
+    if (input.files[0]) { fd.append("productImage", input.files[0]); }
+
+    fetch("/products/edit", {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        _id: productId,
-        name: document.getElementById("name").value,
-        description: document.getElementById("desc").value,
-        price: parseFloat(document.getElementById("price").value),
-      }),
+      body: fd
     }).then((res) => console.log(res.json));
   } else {
     document.getElementById("pageMessage").innerHTML = `
@@ -112,7 +118,13 @@ function updateRecord() {
  * Helper function to fill the form with the selected product values
  */
 function fillForm() {
-  console.log("Filling form with selection");
+  console.log("Filling form with selection test");
+
+  // Remove img element if it exists
+  if (document.querySelector("#displayImage")) { 
+    console.log('Found Img'); 
+    document.querySelector('#displayImage').remove();
+  }
 
   //Get product id from dropdown
   let productId = document.getElementById("productselection").value;
@@ -136,6 +148,18 @@ function fillForm() {
           document.getElementById("name").value = item.name;
           document.getElementById("price").value = item.price;
           document.getElementById("desc").value = item.description;
+
+          // Display product image if exists
+          if (item.productImage) {
+            const img = document.createElement("img");
+            img.setAttribute("src", item.productImage);
+            img.setAttribute("id", "displayImage");
+            img.setAttribute("width", "20%");
+            img.setAttribute("height", "20%");
+
+            document.getElementById("currentImage").appendChild(img);
+          }
+
         });
       });
   }

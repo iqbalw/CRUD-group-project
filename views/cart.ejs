@@ -21,8 +21,14 @@
             <% for (let i = 0; i < cart.length; i++) { %>
                 <tr id=<%= cart[i].productID._id %>>
                     <th scope="row" class="aaa" id=<%= cart[i].productID._id %>><%= i + 1 %></th>
-                    <th scope="row"><img class="" src="http://via.placeholder.com/300x180" alt="Card image cap"></th>
-                    <td id ="name"><%= cart[i].productID.name %></td>
+                    <th scope="row">
+                        <% if (cart[i].productID.productImage) { %>
+                            <img class="" src="<%= cart[i].productID.productImage %>" width="50%" height="50%" alt="Card image cap">
+                        <% } else { %>
+                            <img class="" src="http://via.placeholder.com/300x180" width="50%" height="50%" alt="Card image cap">
+                        <% } %>
+                    </th>
+                    <td id ="name><%= cart[i].productID.name %></td>
                     <td><%= cart[i].productID.description %></td>
                     <td id="price"><%= '$' + cart[i].productID.price %></td>
                     <td id = quantity><%= cart[i].quantity %></td>
@@ -46,4 +52,6 @@
     </div>
     <script type="text/javascript" src="/js/cart-page-functionality.js" async></script>
 
+    
 </div>
+<%- include('partials/footer'); %>

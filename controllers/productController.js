@@ -1,4 +1,5 @@
 const Product = require("../models/Products");
+const fs = require('fs');
 
 /**
  * Renders the add product page
@@ -48,7 +49,8 @@ module.exports.getProducts = async (req, res) => {
   try {
     const products = await Product.find();
     res.render("index", {
-      products: products.name,
+      pageTitle: "Home",
+      products: products,
       user: req.user,
     });
   } catch (err) {
@@ -76,11 +78,15 @@ module.exports.getProduct = async (req, res) => {
  * @param {Object} res The Response Object
  */
 module.exports.addProduct = async (req, res) => {
+  // assign product image path
+  const path = req.file ? req.file.path.replace('public', '') : null;
+
   // Create New Product
   const product = new Product({
     name: req.body.name,
     description: req.body.desc,
     price: req.body.price,
+    productImage: path
   });
 
   // Save Product in Database
@@ -92,28 +98,64 @@ module.exports.addProduct = async (req, res) => {
   }
 };
 
+/**
+ * Updates a product with the given values. If a 
+ * image file is supplied will delete the old file 
+ * and replace the image path on the product model 
+ * with the path of the new image.
+ * @param {Object} req The Request Object
+ * @param {Object} res The Response Object
+ */
 module.exports.editProduct = async (req, res) => {
-  console.log(req.body);
+  
   try {
     const query = { 
       _id: req.body._id
-     };
-    const product = await Product.findOneAndUpdate(query, req.body, {
+    };
+
+    let data; // extract data
+    if (req.file) {
+      data = {
+        name: req.body.name,
+        description: req.body.description,
+        price: req.body.price,
+        productImage: req.file.path.replace('public', '')
+      };
+    } else {
+      data = req.body;
+    }
+    console.log(data);
+    const product = await Product.findOneAndUpdate(query, data, {
       upsert: true,
     });
-    console.log(product);
-    res.status(201).send(req.body);
+
+    // if new image supplied and old image exists then delete
+    if (req.file && fs.existsSync('public' + product.productImage)) { 
+      fs.unlinkSync('public' + product.productImage); 
+    } 
+
+    res.status(201).send(product);
   } catch (err) {
     res.status(500).send(err);
   }
 };
 
+/**
+ * Delete a product from the database and its image
+ * locally if it exists.
+ * @param {Object} req The Request Object
+ * @param {Object} res The Response Object 
+ */
 module.exports.deleteProduct = async (req, res) => {
-  console.log("DELETE request");
-  console.log(req.params);
   try {
     const product = await Product.findOneAndDelete({ _id: req.body._id });
     console.log(product);
+    
+    // delete product image locally
+    if (fs.existsSync('public' + product.productImage)) {
+      fs.unlinkSync('public' + product.productImage);
+    }
+    
     res.status(204);
   } catch (err) {
     res.status(500).json(err);
