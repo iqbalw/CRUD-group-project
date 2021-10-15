@@ -25,3 +25,14 @@ module.exports.isLoggedIn = (req, res, next) => {
 module.exports.isNotLoggedIn = (req, res, next) => {
     req.isAuthenticated() ? res.status(400).redirect('/') : next();
 }
+
+/**
+ * Checks if the current user is an Admin. If not then the 
+ * user will be redirected back to the index page.
+ * @param {Object} req The Request Object
+ * @param {Object} res The Response Object
+ * @param {Callback} next The middleware function
+ */
+module.exports.isAdmin = (req, res, next) => {
+    req.user.isAdmin ? next() : res.status(400).redirect('/');
+}

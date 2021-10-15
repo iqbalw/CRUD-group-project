@@ -20,21 +20,28 @@
                 <% if (products) { %> 
                     <% for(var i=0; i < products.length; i++) { %>
                             <div class="col-lg-3 text-center py-5" id = <%=products[i]._id %> >
-                                <div class="card bg-light mb-2">
-                                    <div class="card-body">
-                                        <p id ="productname"><%= products[i].name %></p>
-                                    <p><%= products[i].description %></p>
-                                    </div>
-                                </div>
-                                <p>
-                                    $<%= products[i].price %>
-                                </p>
-                                
-
-                                 <!-- Display cart button when logged in -->
-                                 <% if (user) { %> 
-                                    <button type="submit" class="btn btn-primary">Add to cart</button>
+                                <div class="card text-white bg-dark mb-2">
+                                    
+                                    <% if (products[i].productImage) { %>
+                                        <img class="card-img-top" src="<%= products[i].productImage %>" alt="Card image cap">
+                                    <% } else { %>
+                                        <img class="card-img-top" src="http://via.placeholder.com/200x180" alt="Card image cap">
                                     <% } %>
+                                    
+                                    <div class="card-body">
+                                        <h5 class="card-title" id ="productname"><%= products[i].name %></h5>
+                                        
+                                        <p class="card-subtitle mb-2 text-muted"><%= products[i].description %></p>
+                                        <p>$<%= products[i].price %></p>
+                                        
+                                        <% if (user) { %> 
+                                            <!-- Display cart button when logged in -->
+                                            <button type="submit" class="btn btn-primary">Add to cart</button>
+                                        <% } %>
+                                    
+                                    </div>
+                                
+                                </div> 
                             </div>
                                     
                     <% } %>
