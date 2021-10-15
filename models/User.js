@@ -1,3 +1,4 @@
+const { boolean } = require("@hapi/joi");
 const mongoose = require("mongoose");
 var findOrCreate = require('mongoose-findorcreate')
 
@@ -42,6 +43,10 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  isAdmin: {
+    type: Boolean,
+    default: false
+  }
 });
 userSchema.plugin(findOrCreate);
 module.exports = mongoose.model("User", userSchema);

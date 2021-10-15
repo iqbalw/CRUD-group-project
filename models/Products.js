@@ -1,3 +1,4 @@
+const { string } = require('@hapi/joi');
 const mongoose = require('mongoose');
 
 //Creates the product schema which will be reffered to the in MongoDB database.
@@ -19,6 +20,10 @@ price:{
  required: true,
  min: 0.01,
 },
+productImage: {
+    type: String,
+    required: false
+}
 
 
 });

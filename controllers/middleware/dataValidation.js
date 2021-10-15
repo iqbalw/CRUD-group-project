@@ -47,7 +47,7 @@ const productValidation = (req, res, next) => {
   const { error } = schema.validate(req.body);
   if (error) {
     req.session.message = error.details[0].message;
-    return res.redirect('./add');
+    return res.redirect('/products/add');
   }
   next();
 }
