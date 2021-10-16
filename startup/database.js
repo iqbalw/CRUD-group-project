@@ -33,5 +33,11 @@ module.exports.close = () => {
   return mongoose.disconnect();
 }
 
+module.exports.dropCollection = (collectionName) => {
+  mongoose.connection.db.dropCollection(collectionName, function(err, result) {
+    if (err) { return err }
+    console.log('Collection Dropped');
+  });
+}
 
   
