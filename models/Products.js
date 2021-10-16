@@ -1,7 +1,7 @@
 const { string } = require('@hapi/joi');
 const mongoose = require('mongoose');
 
-//Creates the product schema which will be reffered to the in MongoDB database.
+//Creates the product schema which will be referred to the in MongoDB database.
 const productSchema = new mongoose.Schema({
 name:{
  type: String,
