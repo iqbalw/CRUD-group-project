@@ -155,20 +155,51 @@ The user model contains the following properties:
 
 - Name: 
      - This property is just a string which is used to Identify the user by their name. Helps customize the web page and target each specific user.
--Email: 
+- Email: 
      - This property is used as the username as email tends to be unique, proves to be useful when trying to find the user from the database and serves as a better alternative compared to using the object ID. 
-Password:
- - This property is used to authenticate a user and check if the account/information they are trying to access is actually theirs. Passwords are hashed using bcrypt before being saved in the database. For the required field a function is used which makes the password required if a local user is trying to create an account.
-type: 
-This property lets the server determine which type of user they are. Currently there can be two types of users: “local” and “google”. This property is used as we don’t have access to the passwords of google users. Hence every time a user logs in using google they will be authenticated against google users.
-Cart:
-This property is an object array, where each object contains a reference to a product model and a quantity. This array is used to keep track of the products in each user's cart. Everytime a query is made for the user's cart, reference IDs get populated with the products in the database.
-date: 
-This property simply means the date at which the user registered into the server.
-isAdmin: 
-This property is used to distinguish admin users from normal customers, the property is a boolean value which is set to false by default on creation. All admin users will start off as normal users and in order to turn a user into an admin this property must be manually changed in from the database.
+- Password:
+   - This property is used to authenticate a user and check if the account/information they are trying to access is actually theirs. Passwords are hashed using bcrypt before being saved in the database. For the required field a function is used which makes the password required if a local user is trying to create an account.
+- type: 
+   - This property lets the server determine which type of user they are. Currently there can be two types of users: “local” and “google”. This property is used as we don’t have access to the passwords of google users. Hence every time a user logs in using google they will be authenticated against google users.
+- Cart:
+   - This property is an object array, where each object contains a reference to a product model and a quantity. This array is used to keep track of the products in each user's cart. Everytime a query is made for the user's cart, reference IDs get populated with the products in the database.
+- date: 
+   - This property simply means the date at which the user registered into the server.
+- isAdmin: 
+   - This property is used to distinguish admin users from normal customers, the property is a boolean value which is set to false by default on creation. All admin users will start off as normal users and in order to turn a user into an admin this property must be manually changed in from the database.
+
+### Load Tests Example 
+
+Testing GET requests to Login Page
+
+```loadtest  http://localhost:3000/auth/login``` (with variations in RPS)
 
 
+<img width="720" alt="Screen Shot 2021-10-16 at 10 42 31 PM" src="https://user-images.githubusercontent.com/51874907/137582877-047f6b1b-037c-4ec8-95d7-1e003f6efecd.png">
+
+### GET REQUEST for localhost/3000 example
+
+<img width="395" alt="Screen Shot 2021-10-16 at 10 43 08 PM" src="https://user-images.githubusercontent.com/51874907/137582894-a9dbdf1b-643b-4959-b247-70b315e04622.png">
+
+### Packages used
+- @hapi/joi - for validation incoming request data
+- bcryptjs - For hashing passwords
+- connect-mongo -For saving users sessions on the database instead of server memory
+- dotenv - Configuring/setting environment variables
+- Ejs -Template engine and rendering web pages
+- Express-session - Used to track user sessions
+- Express - Server side framework to build api routes
+- Mongoose - Object data modeling library for MongoDB
+- mongoose-findOrCreate -A plugin function used during google oauth
+- Multer - To parse multipart form data and handle incoming files on requests
+- passport - Library used to build the authentication and authorization logic
+- passport-google-Oauth-20 - Implement the google strategy and allow google logins
+- Passport-local - Implement the local passport strategy and allow users to login in locally
+- Chai - Assertion library used for testing
+- Chai-http - To test api requests 
+- Mocha - Javascript test runner
+- Mockgoose - Used to initialize Mock database 
+- Nodemon - Used for development to automatically restart server
 
 
 
