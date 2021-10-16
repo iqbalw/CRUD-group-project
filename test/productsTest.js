@@ -40,4 +40,10 @@ describe('Adding a product', () => {
             done();
         });
     });
+
+    after((done) => {
+        database.dropCollection('sessions');
+        done();
+    });
 });
+
