@@ -152,4 +152,3 @@ describe('Check Session cookies', () => {
             });
     });
 });
-
