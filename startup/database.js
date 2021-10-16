@@ -39,5 +39,3 @@ module.exports.dropCollection = (collectionName) => {
     console.log('Collection Dropped');
   });
 }
-
-  
